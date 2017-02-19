@@ -76,5 +76,13 @@ namespace ServerLibraries
             }
             
         }
+
+    /*    public int Main(String[] args)
+        {
+            startSyncServer("localhost", 8082);
+
+            return 0;
+        }
+        */
     }
 }

@@ -12,6 +12,7 @@ namespace ServerLibraries
 
     //Ref: https://msdn.microsoft.com/en-us/library/fx6588te(v=vs.110).aspx
 
+
     // State object for reading client data asynchronously  
     public class StateObject
     {
@@ -163,5 +164,13 @@ namespace ServerLibraries
                 Console.WriteLine(e.ToString());
             }
         }
+
+
+    /*    public int Main(String[] args)
+        {
+            startAsyncServer("localhost", 8082);
+            return 0;
+        }
+        */
     }
 }
