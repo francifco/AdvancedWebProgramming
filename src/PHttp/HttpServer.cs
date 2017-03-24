@@ -94,7 +94,7 @@ namespace PHttp
 
         public HttpServer()
         {
-            EndPoint = new IPEndPoint(IPAddress.Loopback, 0);
+            EndPoint = new IPEndPoint(IPAddress.Parse("0.0.0.0"), 0);
 
             ReadBufferSize = 4096;
             WriteBufferSize = 4096;
