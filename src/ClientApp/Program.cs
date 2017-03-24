@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PHttp;
 using System.IO;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace ClientApp
 {
@@ -22,10 +23,14 @@ namespace ClientApp
                 {
                     // The response must be written to e.Response.OutputStream.
                     // When writing text, a StreamWriter can be used.
-                    string path = e.Request.Path;
+
+                    
+                    string requestPath = e.Request.Path;
+                    string filePath = ConfigurationManager.AppSettings["ResoursesPath"];
+
                     using (var writer = new StreamWriter(e.Response.OutputStream))
                     {
-                        writer.Write(path);
+                        writer.Write(requestPath);
 
                     }
                 };
