@@ -73,7 +73,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Resourses\index.html" />
     <Content Include="Resourses\InternalServerError.HTML" />
+    <Content Include="Resourses\not-found.html" />
+    <Content Include="Resourses\rick.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

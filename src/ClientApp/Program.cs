@@ -22,10 +22,11 @@ namespace ClientApp
                 {
                     // The response must be written to e.Response.OutputStream.
                     // When writing text, a StreamWriter can be used.
-
+                    string path = e.Request.Path;
                     using (var writer = new StreamWriter(e.Response.OutputStream))
                     {
-                        writer.Write("Hello world!");
+                        writer.Write(path);
+
                     }
                 };
 
@@ -40,8 +41,8 @@ namespace ClientApp
                 // Start the default web browser.
 
                 Process.Start(String.Format("http://{0}/", server.EndPoint));
-
-                Console.WriteLine("Press any key to continue...");
+                Console.WriteLine("Running on: {0}", server.EndPoint);
+                Console.WriteLine("\nPress any key to continue...");
                 Console.ReadKey();
 
                 // When the HttpServer is disposed, all opened connections
