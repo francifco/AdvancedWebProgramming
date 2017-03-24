@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E5B32378-00C3-4535-A576-8A1FF014ED8E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{C29FCC70-40CE-4E99-9C3C-CFD5D358F078}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClientsLibraries</RootNamespace>
-    <AssemblyName>ClientsLibraries</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>PHttp</RootNamespace>
+    <AssemblyName>PHttp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,12 +30,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>ClientsLibraries.main</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,10 +42,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientAsync.cs" />
-    <Compile Include="ClientSync.cs" />
-    <Compile Include="main.cs" />
+    <Compile Include="Application\IPHttpApplication.cs" />
+    <Compile Include="HttpClient.cs" />
+    <Compile Include="HttpClienteState.cs" />
+    <Compile Include="HttpContext.cs" />
+    <Compile Include="HttpCookie.cs" />
+    <Compile Include="HttpCookieCollection.cs" />
+    <Compile Include="HttpExceptionEventHandler.cs" />
+    <Compile Include="HttpFileCollection.cs" />
+    <Compile Include="HttpMultiPartItem.cs" />
+    <Compile Include="HttpMultiPartRequestParser.cs" />
+    <Compile Include="HttpOutputStream.cs" />
+    <Compile Include="HttpPostedFile.cs" />
+    <Compile Include="HttpReadBuffer.cs" />
+    <Compile Include="HttpRequest.cs" />
+    <Compile Include="HttpRequestEventHandler.cs" />
+    <Compile Include="HttpRequestParser.cs" />
+    <Compile Include="HttpResponse.cs" />
+    <Compile Include="HttpServer.cs" />
+    <Compile Include="HttpServerUtility.cs" />
+    <Compile Include="HttpTimeoutManager.cs" />
+    <Compile Include="HttpServerState.cs" />
+    <Compile Include="HttpUnknownRequestParser.cs" />
+    <Compile Include="HttpUrlEncodedRequestParser.cs" />
+    <Compile Include="HttpUtil.cs" />
+    <Compile Include="PHttpException.cs" />
+    <Compile Include="ProtocolException.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resourses\InternalServerError.HTML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
