@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -45,6 +49,7 @@
     <Compile Include="Application\IPHttpApplication.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpClienteState.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="HttpCookie.cs" />
     <Compile Include="HttpCookieCollection.cs" />
@@ -68,16 +73,28 @@
     <Compile Include="HttpUtil.cs" />
     <Compile Include="PHttpException.cs" />
     <Compile Include="ProtocolException.cs" />
+    <Compile Include="Site.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Resourses\index.html" />
-    <Content Include="Resourses\InternalServerError.HTML" />
-    <Content Include="Resourses\not-found.html" />
-    <Content Include="Resourses\rick.jpg" />
+    <None Include="config.json" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ErrorPages\403.html" />
+    <Content Include="Resources\ErrorPages\501.html" />
+    <Content Include="Resources\ErrorPages\502.html" />
+    <Content Include="Resources\ErrorPages\500.html" />
+    <Content Include="Resources\ErrorPages\412.html" />
+    <Content Include="Resources\ErrorPages\406.html" />
+    <Content Include="Resources\ErrorPages\405.html" />
+    <Content Include="Resources\ErrorPages\404.html" />
+    <Content Include="Resources\ErrorPages\401.html" />
+    <Content Include="Resources\DefaultDocuments\Pages\index.html" />
+    <Content Include="Resources\InternalServerError.HTML" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -22,8 +22,6 @@ namespace PHttp
 
     public class HttpServer : IDisposable
     {
-        //private static readonly ILog Log = LogManager.GetLogger(typeof(HttpServer));
-
         private bool _disposed;
         private TcpListener _listener;
         private readonly object _syncLock = new object();
@@ -92,9 +90,9 @@ namespace PHttp
 
         internal HttpTimeoutManager TimeoutManager { get; private set; }
 
-        public HttpServer()
+        public HttpServer(int port)
         {
-            EndPoint = new IPEndPoint(IPAddress.Parse("0.0.0.0"), 0);
+            EndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
 
             ReadBufferSize = 4096;
             WriteBufferSize = 4096;
@@ -111,7 +109,7 @@ namespace PHttp
 
             State = HttpServerState.Starting;
 
-            //Log.Debug(String.Format("Starting HTTP server at {0}", EndPoint));
+            
 
             TimeoutManager = new HttpTimeoutManager(this);
 
@@ -128,15 +126,12 @@ namespace PHttp
                 _listener = listener;
 
                 ServerUtility = new HttpServerUtility();
-
-                //Log.Info(String.Format("HTTP server running at {0}", EndPoint));
+                
             }
             catch (Exception ex)
             {
                 State = HttpServerState.Stopped;
-
-                //Log.Error("Failed to start HTTP server", ex);
-
+                
                 throw new PHttpException("Failed to start HTTP server", ex);
             }
 
@@ -148,9 +143,7 @@ namespace PHttp
         public void Stop()
         {
             VerifyState(HttpServerState.Started);
-
-            //Log.Debug("Stopping HTTP server");
-
+            
             State = HttpServerState.Stopping;
 
             try
@@ -165,8 +158,6 @@ namespace PHttp
             }
             catch (Exception ex)
             {
-                //Log.Error("Failed to stop HTTP server", ex);
-
                 throw new PHttpException("Failed to stop HTTP server", ex);
             }
             finally
@@ -174,8 +165,7 @@ namespace PHttp
                 _listener = null;
 
                 State = HttpServerState.Stopped;
-
-                //Log.Info("Stopped HTTP server");
+                
             }
         }
 
