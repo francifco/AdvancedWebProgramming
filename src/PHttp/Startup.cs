@@ -8,7 +8,6 @@ using System.IO;
 using System.Reflection;
 using PHttp.Application;
 
-
 namespace PHttp
 {
     public class Startup
@@ -17,12 +16,11 @@ namespace PHttp
         /// This method load all dll files defined at a path on application.config  
         /// </summary>
         /// <param name="path">Sting: path of application.config</param>
-        /// <returns>List of dll files</returns>
-        public List<IPHttpApplication> LoadApps(string path)
+        /// <returns>La lista de "IPHttpApplication"</returns>
+        public async Task<List<IPHttpApplication>> LoadApps(string path)
         {
-          
             DirectoryInfo info = new DirectoryInfo(path);
-            var impl = new List<IPHttpApplication>();
+            List<IPHttpApplication> impl = new List<IPHttpApplication>();
 
             //make sure path aren't empty or null.
             if (string.IsNullOrEmpty(path)) { return impl; }
@@ -52,9 +50,7 @@ namespace PHttp
                         impl.Add((IPHttpApplication)Activator.CreateInstance(type));
                     }
                 }
-                
             }
-
             return impl;
         }
     }

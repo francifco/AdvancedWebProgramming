@@ -5,6 +5,8 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
+using PHttp.Application;
+
 
 
 namespace PHttp
@@ -12,7 +14,7 @@ namespace PHttp
     /// <summary>
     /// Clase responsable del la carga de la configuracion del server.  
     /// </summary>
-    public class Configuration
+    public class ConfigurationManager
     {
         /// <summary>
         /// Puerto por defecto del servidor.
@@ -36,9 +38,10 @@ namespace PHttp
         public List<Site> sites;
 
         /// <summary>
-        /// Carga todos los valores para la configuracion del server.
+        /// Carga todos los valores para la configuracion del server que estan en:
+        /// el config.json.
         /// </summary>
-        public void Load()
+        public void PreApplicationStartMethod()
         {
 
             JObject jsonConfigFile = JObject.Parse(File.ReadAllText(@"../../../PHttp/config.json"));
@@ -54,5 +57,7 @@ namespace PHttp
             this.sites = JsonConvert.DeserializeObject<List<Site>>(jsonConfigFile["sites"].ToString());
             
         }
+
+               
     }
 }

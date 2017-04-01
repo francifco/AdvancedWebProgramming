@@ -10,7 +10,11 @@ namespace Mvc
     /// clase encargada de las vistas en el html deacuerdo a la data recibida:
     /// json, html, etc.
     /// </summary>
-    class View
+    public class ViewEngine: ActionResult
     {
+        ViewEngine View()
+        {
+            return this;
+        }
     }
 }

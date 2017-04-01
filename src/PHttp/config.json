@@ -16,12 +16,12 @@
     },
     "sites": [
         {
-            "name": "Default Web Site",
-            "physicalPath": "C:\\wwwwroot",
-            "virtualPath": "/",
+            "name": "App Web Site",
+            "physicalPath": "../../../App/bin/Debug",
+            "virtualPath": "App1",
             "directoryBrowsing": true,
             "defaultDocument": {
-                "test": "test.html"
+                "test": "../../../App/Views/index.html"
             },
             "errorPages": {
                 "test": "test.html"
