@@ -3,43 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Helper;
-using PHttp;
-using System.Configuration;
 using System.IO;
+
 
 
 namespace Mvc
 {
     /// <summary>
-    /// Esta clase es la responsable de identificar retornar distintos resultados como
-    /// "JSON content", "Text content" y "HTML view"
+    /// This class is the father class to identify and return Different respond in the 
+    /// view. "JSON content", "Text content" and "Dynamical HTML view".
     /// </summary>
-    public class ActionResult
+    public abstract class ActionResult: IActionResult
     {
-        string extencion;
-        byte[] data;
-
-        public ActionResult ExecuteResult(string urlPath)
-        {
-            
-
-            return null;
-        }
 
         /// <summary>
-        /// Determina si el path es virtual. 
+        /// This field Represents the content type.
         /// </summary>
-        /// <param name="path">string: path del "request".</param>
-        /// <returns>true: si existe el archivo, False: si no existe.</returns>
-        bool IsNotVitualPath(string path)
-        {
-            ///revisar esta parte.
-            return (File.Exists(path));
-        }
+        public string ContentType;
 
+        /// <summary>
+        /// Name of the view to show. 
+        /// </summary>
+        public string ViewName;
 
+        /// <summary>
+        /// This filed represents the respond status code. 
+        /// </summary>
+        public string StatusCode;
+
+        /// <summary>
+        /// This field is the Data string.
+        /// </summary>
+        public string StrData;
+
+        /// <summary>
+        /// This field is the content of the data for the respond. 
+        /// </summary>
+        public byte[] Data;
+
+        /// <summary>
+        /// Get respond to the view with the MemoryStream.
+        /// </summary>
+        /// <returns>MemoryStream: Stream data.</returns>
+        abstract public MemoryStream GetRespond();
+
+        /// <summary>
+        /// Return content type of the respond.
+        /// </summary>
+        /// <returns>string: Content type.</returns>
+        abstract public string GetContentType();
+
+        /// <summary>
+        /// Return the status code of the respond.
+        /// </summary>
+        /// <returns>int: status code</returns>
+        abstract public string GetStatusCode();
         
-
     }
 }

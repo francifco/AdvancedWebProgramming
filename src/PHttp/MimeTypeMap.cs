@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Helper
+namespace PHttp
 {
     /// <summary>
     /// Este es un Helper para el retorno del contentType deacuerdo 
     /// al tipo de archivo recibido. 
     /// Ref: http://stackoverflow.com/questions/1029740/get-mime-type-from-filename-extension
     /// </summary>
-    static public class MimeHelper
+    static public class MimeTypeMap
     {
         private static IDictionary<string, string> _mappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) {
 

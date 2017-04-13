@@ -49,7 +49,7 @@
     <Compile Include="Application\IPHttpApplication.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpClienteState.cs" />
-    <Compile Include="Configuration.cs" />
+    <Compile Include="ConfigurationManager .cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="HttpCookie.cs" />
     <Compile Include="HttpCookieCollection.cs" />
@@ -71,6 +71,7 @@
     <Compile Include="HttpUnknownRequestParser.cs" />
     <Compile Include="HttpUrlEncodedRequestParser.cs" />
     <Compile Include="HttpUtil.cs" />
+    <Compile Include="MimeTypeMap.cs" />
     <Compile Include="PHttpException.cs" />
     <Compile Include="ProtocolException.cs" />
     <Compile Include="Site.cs" />
@@ -79,7 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="config.json" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ErrorPages\403.html" />
