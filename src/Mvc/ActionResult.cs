@@ -34,7 +34,7 @@ namespace Mvc
         /// <summary>
         /// This field is the Data string.
         /// </summary>
-        public string StrData;
+        public string StrObject;
 
         /// <summary>
         /// This field is the content of the data for the respond. 

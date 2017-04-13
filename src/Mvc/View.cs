@@ -67,8 +67,8 @@ namespace Mvc
                 customViewPath = customViewPath.Replace("Controller", "");
             }
 
-            customViewPath += ".hbs";
-            defaultViewPath += ".hbs";
+            customViewPath += ".html";
+            defaultViewPath += ".html";
 
             if (File.Exists(customViewPath))
             {

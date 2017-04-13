@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Newtonsoft.Json;
 
 
 namespace Mvc
@@ -18,21 +19,32 @@ namespace Mvc
         /// </summary>
         /// <param name="statusCode">int: Status Code of the respond.</param>
         /// <param name="jsonString">string: Json contain. </param>
-        public JsonResult(string statusCode, string jsonString)
+        public JsonResult(string statusCode, string strObject)
         {
             this.StatusCode = statusCode;
-            this.StrData = jsonString;
+            this.StrObject = strObject;
             this.ContentType = "application/json";
         }
 
-       
+        /// <summary>
+        /// constructor with parameter: string: json.
+        /// </summary>
+        /// <param name="statusCode">int: Status Code of the respond.</param>
+        /// <param name="jsonString">string: Json contain. </param>
+        public JsonResult(string statusCode, object Object)
+        {
+            this.StatusCode = statusCode;
+            this.StrObject = JsonConvert.SerializeObject(Object);
+            this.ContentType = "application/json";
+        }
+
         /// <summary>
         /// This method create a MemoryStream for the respond with json content.
         /// </summary>
         /// <returns>MemoryStream: memory stream with json content.</returns>
         public override MemoryStream GetRespond()
         {
-            return new MemoryStream(Encoding.ASCII.GetBytes(this.StrData));
+            return new MemoryStream(Encoding.ASCII.GetBytes(this.StrObject));
         }
 
         /// <summary>

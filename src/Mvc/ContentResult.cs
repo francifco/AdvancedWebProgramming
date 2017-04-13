@@ -17,11 +17,11 @@ namespace Mvc
         /// Constructor with parameter: Status code and text string.
         /// </summary>
         /// <param name="statusCode">int: Status Code.</param>
-        /// <param name="strData">string: Text string.</param>
-        public ContentResult(string statusCode, string strData)
+        /// <param name="strObject">string: string with json content.</param>
+        public ContentResult(string statusCode, string strObject)
         {
             this.StatusCode = statusCode;
-            this.StrData = strData;
+            this.StrObject = strObject;
             this.ContentType = "text/plain";
         }
 
@@ -31,7 +31,7 @@ namespace Mvc
         /// <returns>MemoryStream: memory stream with text content.</returns>
         public override MemoryStream GetRespond()
         {
-            return new MemoryStream(Encoding.ASCII.GetBytes(this.StrData));
+            return new MemoryStream(Encoding.ASCII.GetBytes(this.StrObject));
         }
 
         /// <summary>
