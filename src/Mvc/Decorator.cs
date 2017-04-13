@@ -8,34 +8,34 @@ using System;
 namespace Mvc
 {
     /// <summary>
-    /// clase para la decoracion para cada accion de los controllers.
+    /// This class of attributes for each action of the controllers.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class httpMethod : Attribute
+    public class HttpMethod : Attribute
     {
 
     }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class httpPost : httpMethod
+    public class HttpPost : HttpMethod
     {
 
     }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class httpGet : httpMethod
+    public class HttpGet : HttpMethod
     {
 
     }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class httpPut : httpMethod
+    public class HttpPut : HttpMethod
     {
 
     }
 
     [AttributeUsage(AttributeTargets.Method)]
-    public class httpDelete : httpMethod
+    public class HttpDelete : HttpMethod
     {
 
     }

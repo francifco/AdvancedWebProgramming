@@ -49,6 +49,10 @@
     <Compile Include="RespondHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mvc\Mvc.csproj">
+      <Project>{4e1acf75-26ef-4f9a-bec0-526a4cf5e2cf}</Project>
+      <Name>Mvc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PHttp\PHttp.csproj">
       <Project>{c29fcc70-40ce-4e99-9c3c-cfd5d358f078}</Project>
       <Name>PHttp</Name>

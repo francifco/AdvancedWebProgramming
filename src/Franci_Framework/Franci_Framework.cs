@@ -8,61 +8,77 @@ using System.Threading.Tasks;
 
 namespace Franci_Framework
 {
+    /// <summary>
+    /// This class is the main of the framework. 
+    /// </summary>
     class Franci_Framework
     {
         /// <summary>
-        /// Main del servidor.
+        /// Main Console server.
         /// </summary>
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            /// Objeto para configuracion de el servidor.
+            /// Object for server configuration.
             ConfigurationManager configurationManager = new ConfigurationManager();
-            Startup httpStart = new Startup();
-            Task<List<IPHttpApplication>> allApps = null;
 
-            /// Carga la configuracion inicial del server. 
-            configurationManager.PreApplicationStartMethod();
+            /// object for startup all apps.
+            Startup startup = new Startup();
 
-            ///carga cada applicacion del framework asincronicamente.
+            /// Task of List of all apps.
+            Task<List<IPHttpApplication>> AsyncAllApps = null;
+
+            /// List of all apps.
+            List<IPHttpApplication> AllApps;
+
+            /// Load the server configuration.
+            configurationManager.Load();
+            
+            /// Load all active apps from configuration loaded.
             foreach (Site site in configurationManager.sites)
             {
-                allApps = httpStart.LoadApps(site.physicalPath);
-            }
+                AsyncAllApps = startup.LoadApps(site.physicalPath);
 
-            if (allApps == null)
-            {
-                Console.WriteLine("No app loaded. Verify physical path of any site added.");
-            }
-            else
-            {
-
-                // manejador para las respuestas de cada "requests".
-                RespondHandler resHandler = new RespondHandler(configurationManager, allApps);
-
-                using (var server = new HttpServer(configurationManager.port))
+                foreach (IPHttpApplication app in AsyncAllApps.Result)
                 {
-                    //Las nuevas peticiones se señalan a través de este evento "RequestReceived"
-                    server.RequestReceived += (s, e) =>
-                    {
-                        // La respuesta se escriben en "e.Response.OutputStream".
-                        e.Response.OutputStream = resHandler.GetRespond(e);
-                    };
-
-                    /// Se inician los servicios del "server". 
-                    server.Start();
-
-                    /// Informaciones del inicio del server en la consola. 
-                    Process.Start(String.Format("http://{0}/", server.EndPoint));
-                    Console.WriteLine("Running on: {0}", server.EndPoint);
-                    Console.WriteLine("\nPress any key to continue...");
-                    Console.ReadKey();
-
-                    /// Cuando el HttpServer está "disposed", todas las conexiones abiertas
-                    /// se cierran automáticamente.
+                    //  Init app and Generate all routes according pattern defined 
+                    // in every app.
+                    app.Init(site);
                 }
             }
+
+            if (AsyncAllApps == null)
+            {
+                Console.WriteLine("Not Apps loaded. Verify physical path of any site added into config.json");
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+                return;
+            }
             
+            /// This object is the handler of the respond.
+            RespondHandler ResHandler = new RespondHandler(configurationManager, AsyncAllApps);
+                  
+
+            using (var server = new HttpServer(configurationManager.port))
+            {
+                
+                server.RequestReceived += (s, e) =>
+                {
+                    e.Response.OutputStream = ResHandler.GetRespond(e);
+                };
+
+                // The server are started.
+                server.Start();
+
+                //Information about the start of the server in the console. 
+                Process.Start(String.Format("http://{0}/", server.EndPoint));
+                Console.WriteLine("Running on: {0}", server.EndPoint);
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+
+                /// When the HttpServer is "disposed", all open connections
+               /// are closed automatically.
+            }
         }
     }
 }

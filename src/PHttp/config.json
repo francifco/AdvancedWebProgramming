@@ -18,10 +18,10 @@
         {
             "name": "App Web Site",
             "physicalPath": "../../../App/bin/Debug",
-            "virtualPath": "App1",
+            "virtualPath": "App",
             "directoryBrowsing": true,
             "defaultDocument": {
-                "test": "../../../App/Views/index.html"
+                "home": "../../../App/Views/home.html"
             },
             "errorPages": {
                 "test": "test.html"

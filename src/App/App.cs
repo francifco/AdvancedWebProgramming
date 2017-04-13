@@ -7,11 +7,14 @@ using Mvc;
 
 namespace App
 {
-    class App: PHttpAplication
+    /// <summary>
+    /// This Class define app route pattern.
+    /// </summary>
+    class App : PHttpAplication
     {
-        void routes()
+        public App() : base()
         {
-            this.RegisterRouter("{controller}/{action}/{id}");
+            RegisterURLPatern("{controller}/{action}/{id}");
         }
         
     }

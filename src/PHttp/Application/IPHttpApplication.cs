@@ -7,43 +7,43 @@ using System.Threading.Tasks;
 namespace PHttp.Application
 {
 
-    public delegate string PreApplicationStartMethod(Type type, string method);
-    public delegate string ApplicationStartMethod(Type type, string method);
+   // public delegate string PreApplicationStartMethod(Type type, string method);
+  //  public delegate string ApplicationStartMethod(Type type, string method);
 
     /// <summary>
-    /// Contrato para la clase responble del manejo de los dll cargados.
+    /// Contract for the class responsible for handling the loaded DLLs.
     /// </summary>
     public interface IPHttpApplication
     {
 
-        event PreApplicationStartMethod PreApplicationStart;
+        //   event PreApplicationStartMethod PreApplicationStart;
+        //   event ApplicationStartMethod ApplicationStart;
 
-        event ApplicationStartMethod ApplicationStart;
-
-        string RoutePattern { get; set; }
-
-     
-        /// <summary>
-        /// Asigna el patron del router establecido por defecto.
-        /// </summary>
-        /// <param name="pattern">string: patron definido</param>
-        void RegisterRouter(string pattern);
+        void RegisterURLPatern(string pattern);
 
         /// <summary>
-        /// Carga y combiana todas la rutas disponibles deacuerdo a los 
-        /// "controllers" y sus acciones.
+        /// Return the actual Site Instanced.
         /// </summary>
-        /// <returns>"Dictionary<string, string>:" diccionario con todas la rutas 
-        /// disponibles
-        /// </returns>
-        void GeneratePosibleRoutes();
+        /// <returns></returns>
+        Site GetSite();
 
         /// <summary>
-        /// Ejecuta la accion del controller. 
+        /// Start a specific App with site loaded.
         /// </summary>
-        /// <param name="action">string: nombre de la accion o metodo a ejecutar</param>
-        /// <returns>Object: obejeto con la accion ejecutada</returns>
-        object ExecuteAction(string action);
+        /// <param name="site">site: object that represent a site.</param>
+        void Init(Site site);
+        
+        /// <summary>
+        /// Loads and combines all available routes according to the defined route pattern.
+        /// </summary>
+        void GenerateAllRoutes();
+
+        /// <summary>
+        /// Execute action of Request. 
+        /// </summary>
+        /// <param name="ActionRequest">Dictionary: Request action to execute.</param>
+        /// <returns>Object: Action with to precessed.</returns>
+        object ExecuteAction(Dictionary<string, object> ActionRequest);
 
     }
 }

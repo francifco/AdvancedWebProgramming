@@ -7,25 +7,49 @@ using System.Configuration;
 using System.IO;
 using PHttp;
 using PHttp.Application;
+using Mvc;
 
 namespace Franci_Framework
 {
     /// <summary>
-    /// Esta clase es la responsable de todas las respuestas hacia el "client"
+    /// This class is responsible for all responses to the client
     /// </summary>
     public class RespondHandler
     {
         /// <summary>
-        /// Contenedor de la configuracion del "server".
+        /// Container of the Server configuration.
         /// </summary>
         ConfigurationManager configurationManager;
 
+        /// <summary>
+        /// Application which serves the framework.
+        /// </summary>
+        IPHttpApplication App = null;
+
+        /// <summary>
+        /// Array data for the response.
+        /// </summary>
+        byte[] data;
+
+        /// <summary>
+        /// Store for the BinaryReader.
+        /// </summary>
+        MemoryStream stream;
+
+        /// <summary>
+        /// List of all application created.  
+        /// </summary>
         Task<List<IPHttpApplication>> AllApps;
 
         /// <summary>
-        /// Constructor por defecto del "RespondHandler".
+        /// Container of the Action of the Request.
         /// </summary>
-        /// <param name="conf">PHttp.ConfigurationManager: Configuracion del "server" </param>
+        Dictionary<string, object> ActionRequest;
+
+        /// <summary>
+        /// Default Constructor.
+        /// </summary>
+        /// <param name="conf">PHttp.ConfigurationManager: Object of the configuration of the server</param>
         public RespondHandler(ConfigurationManager conf, Task<List<IPHttpApplication>> allApps)
         {
             this.configurationManager = conf;
@@ -33,60 +57,76 @@ namespace Franci_Framework
         }
 
         /// <summary>
-        /// Este metodo responde al cliende deacuerdo al evento recibido.
+        /// This is a method that responds to the customer according to the event received.
         /// </summary>
-        /// <param name="requestEvent">HttpRequestEventArgs: Evento del request.</param>
-        /// <returns>HttpOutputStream: la respuesta del evento del argumento recibido</returns>
+        /// <param name="requestEvent">HttpRequestEventArgs: Request event.</param>
+        /// <returns>HttpOutputStream: Event respond of the argument received.</returns>
         public HttpOutputStream GetRespond(HttpRequestEventArgs requestEvent)
         {
-            /// arreglo con cada string del url path.
-            string[] siteName = requestEvent.Request.Path.Replace("favicon.ico",string.Empty).Split('/');
-            byte[] data;
-            MemoryStream stream;
+             ActionRequest = new Dictionary<string, object>();
             
-            ///TODO: no siempre vendra un archivo en el request.
-            ///validar esta parte.
-            //string fileName = Path.GetFileName(requestEvent.Request.Path);
-
+            /// Array of the URL path received.
+            string[] UrlSplited = requestEvent.Request.Path.Replace("favicon.ico", string.Empty).Split('/');
+            string SiteName = UrlSplited[1];
+          
+            // show state in the console.
+            Console.WriteLine("Client: {0} makes request => {1}", SiteName, requestEvent.Request.Path);
+            
             if (requestEvent.Request.Path.Equals("/"))
             {
                 requestEvent.Response.ContentType = MimeTypeMap
                     .GetMimeType(Path.GetExtension(configurationManager.defaultDocument["index"]));
                 requestEvent.Response.Status = "200";
                 data = File.ReadAllBytes(configurationManager.defaultDocument["index"]);
-                stream = new MemoryStream(data);
-                return new HttpOutputStream(stream);
             }
-            ///TODO: aqui va la logica de los request de los usuarios(dvelopers):
-            /// 1 determinar de que site es que viene el path.
-            /// 2 determinar que controller ejecutar.
-            /// 3 determinar si es vistual el request.
-            //  4 determinar que accion ejecuta el controller.
-            ///
             else
             {
-                //si el site no existe.
-                if (!Exist(siteName[1]))
+                // Do it if the site not exist.
+                if (!Exist(SiteName))
                 {
+                    requestEvent.Response.ContentType = MimeTypeMap
+                        .GetMimeType(Path.GetExtension(configurationManager.errorPages["404"]));
                     requestEvent.Response.Status = "404";
                     data = File.ReadAllBytes(configurationManager.errorPages["404"]);
-                    stream = new MemoryStream(data);
-                    return new HttpOutputStream(stream);
                 }
-                else //si site existe, verificar si existe el controller.
+                // else: execute method of one of the apps loaded.
+                else 
                 {
-                    
+                    ActionRequest.Add("URLPath", requestEvent.Request.Path.Replace("/"+ SiteName, "")
+                        .ToLower());
+                    ActionRequest.Add("HttpMethod", requestEvent.Request.HttpMethod);
+                    ActionRequest.Add("Parameters", requestEvent.Request.Form);
+                    ActionRequest.Add("Files", requestEvent.Request.Files);
+
+           
+                    foreach (IPHttpApplication Application in AllApps.Result)
+                    {
+                        Site AppSite = Application.GetSite();
+
+                        if(AppSite.virtualPath.ToLower() == SiteName.ToLower())
+                        {
+                            var response = Application.ExecuteAction(ActionRequest);
+                              
+                            ///aqui retornaria el response
+                        }
+                        
+                    } 
+
+   
+                    ///hacer que se actualize site en el js despues que el user cree algun view. 
+
                 }
-                
-                return null;  //quitar eso
             }
+
+            stream = new MemoryStream(data);
+            return new HttpOutputStream(stream);
         }
 
         /// <summary>
-        /// Determina si existe un site.
+        /// Evaluate if a site exists.
         /// </summary>
-        /// <param name="siteName">string: nombre del site</param>
-        /// <returns>true: si existe el site, false: si o existe</returns>
+        /// <param name="siteName">string: Site name</param>
+        /// <returns>true: if exist, false: if not exist.</returns>
         private bool Exist(string siteName)
         {
             foreach (Site site in configurationManager.sites)
@@ -96,6 +136,10 @@ namespace Franci_Framework
             }
             return false;
         }
+
+
+
+
 
     }
 }
