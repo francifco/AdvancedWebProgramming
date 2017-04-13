@@ -54,17 +54,7 @@ namespace Mvc
         /// </summary>
         public BaseController() { }
 
-        /// <summary>
-        /// Send a json object.
-        /// </summary>
-        /// <param name="statusCode">string: status code</param>
-        /// <param name="jsonObject">object: json object</param>
-        /// <returns>MemoryStream for the response with json content.</returns>
-        public ActionResult JsonResult(string statusCode, object jsonObject)
-        {
-            return new JsonResult(statusCode, jsonObject);
-        }
-
+        
         /// <summary>
         /// Send a json object.
         /// </summary>
@@ -81,11 +71,10 @@ namespace Mvc
         /// </summary>
         /// <param name="statusCode">string: Status code of request.</param>
         /// <param name="data">string: Data send to the view.</param>
-        /// <param name="customView">string: Custom view name.</param>
+        /// <param name="customView">string: Custom view name. If no send vie name, show default view.</param>
         /// <returns>A view with data received.</returns>
-        public ActionResult View(string statusCode, byte[] data, string customView)
+        public ActionResult View(string statusCode, string data, string customView = "")
         {
-        
             return new View(statusCode, data, PhysicalPath, ControllerName, customView);
         }
 

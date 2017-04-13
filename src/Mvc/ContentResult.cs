@@ -26,12 +26,12 @@ namespace Mvc
         }
 
         /// <summary>
-        /// This method has no function in this context.
+        /// This method create a MemoryStream for the respond with text content.
         /// </summary>
-        /// <returns>null</returns>
+        /// <returns>MemoryStream: memory stream with text content.</returns>
         public override MemoryStream GetRespond()
         {
-            return null;
+            return new MemoryStream(Encoding.ASCII.GetBytes(this.StrData));
         }
 
         /// <summary>
