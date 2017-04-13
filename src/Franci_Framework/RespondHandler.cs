@@ -97,8 +97,7 @@ namespace Franci_Framework
                     ActionRequest.Add("HttpMethod", requestEvent.Request.HttpMethod);
                     ActionRequest.Add("Parameters", requestEvent.Request.Form);
                     ActionRequest.Add("Files", requestEvent.Request.Files);
-
-           
+                    
                     foreach (IPHttpApplication Application in AllApps.Result)
                     {
                         Site AppSite = Application.GetSite();
@@ -106,8 +105,10 @@ namespace Franci_Framework
                         if(AppSite.virtualPath.ToLower() == SiteName.ToLower())
                         {
                             var response = Application.ExecuteAction(ActionRequest);
-                              
-                            ///aqui retornaria el response
+                            requestEvent.Response.Status = ((ActionResult)response).GetStatusCode();
+                            requestEvent.Response.ContentType = ((ActionResult)response).GetContentType();
+                            stream = ((ActionResult)response).GetRespond();
+                            return new HttpOutputStream(stream);
                         }
                         
                     } 

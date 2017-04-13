@@ -25,23 +25,11 @@ namespace Mvc
             this.ContentType = "application/json";
         }
 
-        /// <summary>
-        /// constructor with parameter: Object: json.
-        /// </summary>
-        /// <param name="statusCode">int: Status Code of the respond.</param>
-        /// <param name="jsonObject">object: Json contain. </param>
-        public JsonResult(string statusCode, object jsonObject)
-        {
-            this.StatusCode = statusCode;
-            ///probar esto
-            this.StrData = jsonObject.ToString();
-            this.ContentType = "application/json";
-        }
-
+       
         /// <summary>
         /// This method create a MemoryStream for the respond with json content.
         /// </summary>
-        /// <returns>MemoryStream for the response with json content.</returns>
+        /// <returns>MemoryStream: memory stream with json content.</returns>
         public override MemoryStream GetRespond()
         {
             return new MemoryStream(Encoding.ASCII.GetBytes(this.StrData));

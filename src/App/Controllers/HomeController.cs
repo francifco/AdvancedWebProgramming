@@ -15,40 +15,13 @@ namespace App
     {
 
         /// <summary>
-        /// This action send json object to the view.
-        /// </summary>
-        /// <returns>JObject: json content.</returns>
-        [HttpGet]
-        public ActionResult MessageJson()
-        {
-            string json = @"{ 'Name': 'Bad Boys',
-                              'ReleaseDate': '1995-4-7T00:00:00',
-                              'Genres': [
-                                'Action',
-                                'Comedy'
-                              ]
-                            }";
-
-            JObject jObject = new JObject(json);
-
-            return new JsonResult("200", jObject);
-        }
-
-
-        /// <summary>
         /// This action send a string with json format to the view.
         /// </summary>
         /// <returns>JObject: json content.</returns>
         [HttpGet]
         public ActionResult MessageStrJson()
         {
-            string StrJson = @"{ 'Name': 'Bad Boys',
-                              'ReleaseDate': '1995-4-7T00:00:00',
-                              'Genres': [
-                                'Action',
-                                'Comedy'
-                              ]
-                            }";
+            string StrJson = @"{ ""name"":""John"", ""age"":31, ""city"":""New York"" }";
 
             return new JsonResult("200", StrJson);
         }
@@ -58,7 +31,7 @@ namespace App
         /// </summary>
         /// <returns>String: text.</returns>
         [HttpGet]
-        public ActionResult MessageConten()
+        public ActionResult MessageContent()
         {
             string message = "Hi this is text.";
 
@@ -70,12 +43,12 @@ namespace App
         /// This action create a view Dynamically with text sanded.
         /// </summary>
         /// <returns>JObject: json content.</returns>
-  /*      public ActionResult MessageView()
+        public ActionResult MessageView()
         {
             string message = "hola es un test.";
 
-            return new View(message);
+            return View("200", message);
         }
-*/
+
     }
 }

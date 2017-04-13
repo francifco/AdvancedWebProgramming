@@ -17,17 +17,9 @@ namespace App.Controllers
         [HttpGet]
         public ActionResult MessageJson()
         {
-            string json = @"{ 'Name': 'Bad Boys',
-                              'ReleaseDate': '1995-4-7T00:00:00',
-                              'Genres': [
-                                'Action',
-                                'Comedy'
-                              ]
-                            }";
-
-            JObject jObject = new JObject(json);
-
-            return new JsonResult("200", jObject);
+            string message = "Hola test.";
+            
+            return new ContentResult("200", message);
         }
     }
 }
