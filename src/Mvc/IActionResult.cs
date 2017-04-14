@@ -12,8 +12,8 @@ namespace Mvc
         /// <summary>
         /// Get respond to the view with the MemoryStream.
         /// </summary>
-        /// <returns>MemoryStream: Stream data.</returns>
-        MemoryStream GetRespond();
+        /// <returns>object: Stream data.</returns>
+        object GetRespond();
 
         /// <summary>
         /// Return content type of the respond.

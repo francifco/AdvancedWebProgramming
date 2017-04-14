@@ -41,8 +41,8 @@ namespace Mvc
         /// <summary>
         /// This method create a MemoryStream for the respond with json content.
         /// </summary>
-        /// <returns>MemoryStream: memory stream with json content.</returns>
-        public override MemoryStream GetRespond()
+        /// <returns>object: memory stream with json content.</returns>
+        public override object GetRespond()
         {
             return new MemoryStream(Encoding.ASCII.GetBytes(this.StrObject));
         }

@@ -15,6 +15,10 @@ namespace Mvc
     /// </summary>
     public abstract class ActionResult: IActionResult
     {
+        /// <summary>
+        /// Identify if the view exist.
+        /// </summary>
+        public bool NotExistingView = true;
 
         /// <summary>
         /// This field Represents the content type.
@@ -44,8 +48,8 @@ namespace Mvc
         /// <summary>
         /// Get respond to the view with the MemoryStream.
         /// </summary>
-        /// <returns>MemoryStream: Stream data.</returns>
-        abstract public MemoryStream GetRespond();
+        /// <returns>object: Stream data.</returns>
+        abstract public object GetRespond();
 
         /// <summary>
         /// Return content type of the respond.

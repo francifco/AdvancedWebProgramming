@@ -75,10 +75,12 @@ namespace Mvc
                 controllerName = controllerName.Replace("controller", "");
             }
             
-            return new View(statusCode, Object, controllerName, httpContext.Site.physicalPath, customView);
+            object view = new View(statusCode, Object, controllerName, httpContext.Site.physicalPath, customView);
+
+            //if((View)view.GetType.No)
+
+            return (View)view;
         }
-
-
     }
 
     
