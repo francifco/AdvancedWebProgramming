@@ -62,7 +62,7 @@ namespace Mvc
         /// Return the actual Site Instanced.
         /// </summary>
         /// <returns>Site: The site that was loaded.</returns>
-        public Site GetSite()
+        public object GetSite()
         {
             return this.AppSite;
         }
@@ -146,7 +146,7 @@ namespace Mvc
                 {
                     if (route.UrlPath == RequestAction["URLPath"].ToString())
                     {   
-                        ///si no hay metodo definido, aceptarlocomo si fuera un Get por defecto
+                        /// TODO: si no hay metodo definido, aceptarlocomo si fuera un Get por defecto
                       //if (route.ControllerName != RequestAction["HttpMethod"].ToString())
                       //  {
                       //      return "500";
@@ -167,7 +167,7 @@ namespace Mvc
                                     {
                                         baseController = (BaseController)Activator.CreateInstance(type);
                                         baseController.Route = route;
-                                        baseController.AppPhysicalPath = AppSite.physicalPath;
+                                        baseController.httpContext.Site.physicalPath = AppSite.physicalPath;
 
                                         if (baseController.GetType().Name == route.ControllerName)
                                         {
@@ -197,9 +197,9 @@ namespace Mvc
         /// <param name="site">Site: object site that contains all information. 
         /// about an active site.
         /// </param>
-        public void Init(Site site)
+        public void Init(object site)
         {
-            this.AppSite = site;
+            this.AppSite = (Site)site;
 
             GenerateAllRoutes();
         }

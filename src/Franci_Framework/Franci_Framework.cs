@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using PHttp;
 using PHttp.Application;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Mvc;
+using PHttp;
 
 namespace Franci_Framework
 {
@@ -27,9 +27,6 @@ namespace Franci_Framework
 
             /// Task of List of all apps.
             Task<List<IPHttpApplication>> AsyncAllApps = null;
-
-            /// List of all apps.
-            List<IPHttpApplication> AllApps;
 
             /// Load the server configuration.
             configurationManager.Load();

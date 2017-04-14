@@ -6,66 +6,76 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace PHttp
+namespace Mvc
 {
     /// <summary>
-    /// Clase responsable del la carga de la configuracion del 
-    /// server usando el archivo: "config.json" 
+    /// Class responsible for loading and contain configuration of the
+    /// server using the file: "config.json"
     /// </summary>
     public class ConfigurationManager
     {
         /// <summary>
-        /// Puerto por defecto del servidor.
+        /// Default server port.
         /// </summary>
         public int port;
 
         /// <summary>
-        /// Diccionario con los "path" de los archivos .html 
-        /// con los mensajes de errores que provee el framework.
+        /// Dictionary with "path" of .html files
+        /// with the error messages provided by the framework.
         /// </summary>
         public Dictionary<string, string> errorPages;
 
         /// <summary>
-        /// Diccionario de los documentos o archivos por defectos.
+        /// Dictionary of default documents or files.
         /// </summary>
         public Dictionary<string, string> defaultDocument;
 
         /// <summary>
-        /// listado de los sites actuales en el server.
+        /// List of current sites on the server.
         /// </summary>
         public List<Site> sites;
 
         /// <summary>
-        /// Determinante de que se cargo la configuracion.
+        /// Determine if the configuration is loaded.
         /// </summary>
         private bool ConfigLoaded = false;
 
         /// <summary>
-        /// Carga todos los valores para la configuracion del server que estan en:
-        /// el config.json.
+        /// It loads all the values for the configuration of the server that are in: the config.json.
         /// </summary>
         public void Load()
         {
-            JObject jsonConfigFile = JObject.Parse(File.ReadAllText(@"../../../PHttp/config.json"));
+            string filePath = @"../../../Mvc/config.json";
 
-            this.port = (int)jsonConfigFile["port"];
+            if (File.Exists(filePath))
+            {
+                JObject jsonConfigFile = JObject.Parse(File.ReadAllText(filePath));
 
-            this.errorPages = JsonConvert.DeserializeObject
-                <Dictionary<string, string>>(jsonConfigFile["errorPages"].ToString());
+                this.port = (int)jsonConfigFile["port"];
 
-            this.defaultDocument = JsonConvert.DeserializeObject
-                <Dictionary<string, string>>(jsonConfigFile["defaultDocument"].ToString());
+                this.errorPages = JsonConvert.DeserializeObject
+                    <Dictionary<string, string>>(jsonConfigFile["errorPages"].ToString());
 
-            this.sites = JsonConvert.DeserializeObject<List<Site>>(jsonConfigFile["sites"].ToString());
+                this.defaultDocument = JsonConvert.DeserializeObject
+                    <Dictionary<string, string>>(jsonConfigFile["defaultDocument"].ToString());
 
-            this.ConfigLoaded = true;
+                this.sites = JsonConvert.DeserializeObject<List<Site>>(jsonConfigFile["sites"].ToString());
+
+                this.ConfigLoaded = true;
+            }
+            else
+            {
+                Console.WriteLine("Error: Config file not Found.");
+                this.ConfigLoaded = false;
+            }
+            
         }
 
         /// <summary>
-        /// Busca un site deacuerdo po el "virtualPath"
+        /// Search for a site according to "virtualPath"
         /// </summary>
-        /// <param name="physicarPath">string: el "virtualPath" del site</param>
-        /// <returns>El objeto site</returns>
+        /// <param name="physicarPath">string: Virtual Path of site.</param>
+        /// <returns>Site: Site Loaded.</returns>
         public Site GetSiteByVirtualPath(string virtualPath)
         {
             if (this.ConfigLoaded)
@@ -82,8 +92,8 @@ namespace PHttp
         }
 
         /// <summary>
-        /// Actualiza el archivo de configuracion inicial: "config.json" y
-        /// vuelve a cargara la data. 
+        /// Update the initial configuration file: "config.json" and
+        /// returns data loaded.
         /// </summary>
         public void UpdateConfigFile()
         {
@@ -105,17 +115,17 @@ namespace PHttp
             }
 
 
-            //modificar el archivo .json
+            //TODO: modificar el archivo .json
 
-            //carga la configuracion inicial de nuevo.
-           // Load();
+            //TODO: carga la configuracion inicial de nuevo.
+            // Load();
         }
 
         /// <summary>
-        /// Remueve de la lista el substring recibido
+        /// Removes list of the substring received.
         /// </summary>
-        /// <param name="dirFiles">string[]: Path con los archivos</param>
-        /// <param name="SubString">string: string a remover</param>
+        /// <param name="dirFiles">string[]: Path of the files.</param>
+        /// <param name="SubString">string: string to remove.</param>
         /// <returns></returns>
         private List<string> RemoveSubString(string[] dirFiles, string SubString)
         {
@@ -130,11 +140,11 @@ namespace PHttp
         }
 
         /// <summary>
-        /// Obtiene los directorios
+        /// Gets all directories from path received.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="ingoreFolders"></param>
-        /// <returns></returns>
+        /// <param name="path">sting: root path.</param>
+        /// <param name="ingoreFolders">string: folders to ignore.</param>
+        /// <returns>sting: array of Sub-directories.</returns>
         private static List<string> GetDirectories(string path, string[] ingoreFolders)
         {
             string searchPattern = "*";
@@ -150,11 +160,11 @@ namespace PHttp
         }
 
         /// <summary>
-        /// Busca todos los directorios de los sites dentro del "path" especificado.
+        /// search for all the directories of the sites within the specified path.
         /// </summary>
-        /// <param name="path">string: "path" con el directorio donde buscar los folders</param>
-        /// <param name="searchPattern">string: patron de busqueda</param>
-        /// <returns>El listado de directorios de los sites</returns>
+        /// <param name="path">string:"Path" with the directory where you can find the folders.</param>
+        /// <param name="searchPattern">String: search pattern</param>
+        /// <returns>The list of directories.</returns>
         private static List<string> GetDirectories(string path, string searchPattern)
         {
             try
@@ -168,11 +178,11 @@ namespace PHttp
         }
 
         /// <summary>
-        /// Elimina los directorios recibidos 
+        /// Removes all path of received directories
         /// </summary>
-        /// <param name="directory">List<string>: lista con los directorios</param>
-        /// <param name="ingnoreFolders">List[]: Arreglo con los directorios a eliminar</param>
-        /// <returns>El listado actualizado</returns>
+        /// <param name="directory">List <string>: list with directories</param>
+        /// <param name="ingnoreFolders">string[]: Array with directories to be deleted</param>
+        /// <returns>List<string>: list updated.</returns>
         private static List<string> RemoveDirectories(List<string> directory, string[] ingnoreFolders)
         {
             for (int i = 0; i < ingnoreFolders.Length; i++)

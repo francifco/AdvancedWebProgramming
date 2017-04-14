@@ -15,7 +15,7 @@ namespace App
     {
 
         /// <summary>
-        /// This action send a string with json format.
+        /// This action sends a string with json format.
         /// </summary>
         /// <returns>string: json content.</returns>
         [HttpGet]
@@ -54,13 +54,26 @@ namespace App
         /// <summary>
         /// This action create a view Dynamically with text sanded.
         /// </summary>
-        /// <returns>JObject: json content.</returns>
+        /// <returns>View with Data.</returns>
         [HttpGet]
         public ActionResult MessageView()
         {
-            object Object = new { tittle = "Home", message = "This is a Message from Home view" };
+            object Object = new { tittle = "Home", message = "This is a Message from Home view." };
             
             return View("200", Object);
+        }
+
+
+        /// <summary>
+        /// This action create a view Dynamically with text sent.
+        /// </summary>
+        /// <returns>View with Data.</returns>
+        [HttpGet]
+        public ActionResult MessageCustomView()
+        {
+            object Object = new {tittle = "Custom", message = "This is a Message from Custom view." };
+
+            return View("200", Object, "custom");
         }
 
     }

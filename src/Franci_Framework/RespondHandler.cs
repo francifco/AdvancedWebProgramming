@@ -100,7 +100,7 @@ namespace Franci_Framework
                     
                     foreach (IPHttpApplication Application in AllApps.Result)
                     {
-                        Site AppSite = Application.GetSite();
+                        Site AppSite = (Site)Application.GetSite();
 
                         if(AppSite.virtualPath.ToLower() == SiteName.ToLower())
                         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace PHttp.Application
 {
 
@@ -25,13 +26,13 @@ namespace PHttp.Application
         /// Return the actual Site Instanced.
         /// </summary>
         /// <returns></returns>
-        Site GetSite();
+        object GetSite();
 
         /// <summary>
         /// Start a specific App with site loaded.
         /// </summary>
         /// <param name="site">site: object that represent a site.</param>
-        void Init(Site site);
+        void Init(object site);
         
         /// <summary>
         /// Loads and combines all available routes according to the defined route pattern.
