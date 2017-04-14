@@ -77,7 +77,7 @@ namespace Mvc
             //string defaultPattern = "{controller}/{action}/{id}";
             string URLPath = "";
             BaseController baseController = new BaseController();
-            DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath);
+            DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath + "/bin/Debug");
             FileInfo[] fileInfo = directoryInfo.GetFiles("*.dll");
 
             foreach (FileInfo fi in fileInfo)
@@ -154,7 +154,7 @@ namespace Mvc
                         
                      //   else {
                             BaseController baseController = new BaseController();
-                            DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath);
+                            DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath + "/bin/Debug");
                             FileInfo[] fileInfo = directoryInfo.GetFiles("*.dll");
 
                             foreach (FileInfo fi in fileInfo)
@@ -167,7 +167,7 @@ namespace Mvc
                                     {
                                         baseController = (BaseController)Activator.CreateInstance(type);
                                         baseController.Route = route;
-                                        baseController.PhysicalPath = AppSite.physicalPath;
+                                        baseController.AppPhysicalPath = AppSite.physicalPath;
 
                                         if (baseController.GetType().Name == route.ControllerName)
                                         {

@@ -37,7 +37,7 @@ namespace Franci_Framework
             /// Load all active apps from configuration loaded.
             foreach (Site site in configurationManager.sites)
             {
-                AsyncAllApps = startup.LoadApps(site.physicalPath);
+                AsyncAllApps = startup.LoadApps(site.physicalPath + "/bin/Debug");
 
                 foreach (IPHttpApplication app in AsyncAllApps.Result)
                 {

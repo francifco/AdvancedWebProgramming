@@ -58,9 +58,9 @@ namespace App
         [HttpGet]
         public ActionResult MessageView()
         {
-            string message = "hola es un test.";
-
-            return View("200", message);
+            object Object = new { tittle = "Home", message = "This is a Message from Home view" };
+            
+            return View("200", Object);
         }
 
     }
