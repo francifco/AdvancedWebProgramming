@@ -56,7 +56,7 @@ namespace Mvc
         /// Get respond to the view with the MemoryStream. 
         /// </summary>
         /// <returns>MemoryStream: Stream data.</returns>
-        public override MemoryStream GetRespond()
+        public override object GetRespond()
         {
             string defaultViewPath = this.PhysicalPath + "/Views/" + this.ControllerName;
             string customViewPath = this.PhysicalPath + "/Views/" + this.CustomView;
@@ -75,11 +75,10 @@ namespace Mvc
                 {
                     dataDynamicView = File.ReadAllBytes(defaultViewPath);
                 }
-                else
+                else //if no exist default view and custom view.
                 {
-                    //TODO:  determinar que vista enseñr 
-                    ///si no se ecuentra el view, usar la pagina por defecto de la app
-                    ///en caso de no haber, mostrar la del server.
+                    this.StatusCode = "404";
+                    NotExistingView = false;
                 }
 
             }

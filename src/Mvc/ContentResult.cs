@@ -28,8 +28,8 @@ namespace Mvc
         /// <summary>
         /// This method create a MemoryStream for the respond with text content.
         /// </summary>
-        /// <returns>MemoryStream: memory stream with text content.</returns>
-        public override MemoryStream GetRespond()
+        /// <returns>object: Memory stream with text content.</returns>
+        public override object GetRespond()
         {
             return new MemoryStream(Encoding.ASCII.GetBytes(this.StrObject));
         }

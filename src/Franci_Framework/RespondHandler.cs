@@ -107,7 +107,7 @@ namespace Franci_Framework
                             var response = Application.ExecuteAction(ActionRequest);
                             requestEvent.Response.Status = ((ActionResult)response).GetStatusCode();
                             requestEvent.Response.ContentType = ((ActionResult)response).GetContentType();
-                            stream = ((ActionResult)response).GetRespond();
+                            stream = (MemoryStream)((ActionResult)response).GetRespond();
                             return new HttpOutputStream(stream);
                         }
                         
