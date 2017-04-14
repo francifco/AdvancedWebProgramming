@@ -5,47 +5,42 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace PHttp
+namespace Mvc
 {
     /// <summary>
-    /// Clase como contenedora de un site.
+    /// Class that represents a Site in the server.
     /// </summary>
     public class Site
     {
         /// <summary>
-        /// Nombre del site.
+        /// Site name.
         /// </summary>
         public string name { get; set; }
 
         /// <summary>
-        /// Path del directorio donde esta el site. 
+        /// Root directory where the site is. 
         /// </summary>
         public string physicalPath { get; set; }
 
         /// <summary>
-        /// Path vitual por defecto.
+        /// Default virtual path.
         /// </summary>
         public string virtualPath { get; set; }
 
         /// <summary>
-        /// Si el directiorio esta activo o no.
+        /// If the directory is active or not.
         /// </summary>
         public bool directoryBrowsing = false;
 
         /// <summary>
-        /// Diccionario de los documentos por defectos.
+        /// Dictionary of default documents.
         /// </summary>
         public Dictionary<string, string> defaultDocument;
 
         /// <summary>
-        ///Diccionario de los archivos .html con los errores por defectos.
+        /// Dictionary with .html file of the default errors.
         /// </summary>
         public Dictionary<string, string> errorPages;
 
-
-        void load(string json)
-        {
-
-        }
     }
 }

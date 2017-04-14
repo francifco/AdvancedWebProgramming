@@ -77,7 +77,9 @@ namespace Mvc
                 }
                 else
                 {
-                    /// TODO: hacer algo si no existe el view.
+                    //TODO:  determinar que vista enseñr 
+                    ///si no se ecuentra el view, usar la pagina por defecto de la app
+                    ///en caso de no haber, mostrar la del server.
                 }
 
             }

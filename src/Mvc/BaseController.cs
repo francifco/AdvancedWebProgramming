@@ -3,30 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PHttp;
+
 
 namespace Mvc
 {
     /// <summary>
-    /// This class is the father class for all controllers.
+    /// This class has all basic functions of controllers. 
+    /// It is Controller father class.
     /// </summary>
     public class BaseController
     {
 
         /// <summary>
-        /// Physical Path of Application.
-        /// </summary>
-        public string AppPhysicalPath { get; set; }
-
-        /// <summary>
-        /// Controller Name.
-        /// </summary>
-        string ControllerName { get; set; }
-
-        /// <summary>
         /// This property represents all requests received by controller.
         /// </summary>
-        Request request;
+        Request Request;
 
         /// <summary>
         /// This Property is the context of the server to controllers.
@@ -52,9 +43,11 @@ namespace Mvc
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public BaseController() { }
+        public BaseController()
+        {
+            httpContext = new HttpContext();
+        }
 
-        
         /// <summary>
         /// Send a json object.
         /// </summary>
@@ -82,7 +75,7 @@ namespace Mvc
                 controllerName = controllerName.Replace("controller", "");
             }
             
-            return new View(statusCode, Object, controllerName, AppPhysicalPath, customView);
+            return new View(statusCode, Object, controllerName, httpContext.Site.physicalPath, customView);
         }
 
 
