@@ -17,7 +17,7 @@
     "sites": [
         {
             "name": "App Web Site",
-            "physicalPath": "../../../App/bin/Debug",
+            "physicalPath": "../../../App",
             "virtualPath": "App",
             "directoryBrowsing": true,
             "defaultDocument": {

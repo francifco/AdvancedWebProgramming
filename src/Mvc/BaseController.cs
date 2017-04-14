@@ -14,9 +14,9 @@ namespace Mvc
     {
 
         /// <summary>
-        /// Controller Physical Path.
+        /// Physical Path of Application.
         /// </summary>
-        public string PhysicalPath { get; set; }
+        public string AppPhysicalPath { get; set; }
 
         /// <summary>
         /// Controller Name.
@@ -73,9 +73,16 @@ namespace Mvc
         /// <param name="data">string: Data send to the view.</param>
         /// <param name="customView">string: Custom view name. If no send vie name, show default view.</param>
         /// <returns>A view with data received.</returns>
-        public ActionResult View(string statusCode, string data, string customView = "")
+        public ActionResult View(string statusCode, object Object, string customView = "")
         {
-            return new View(statusCode, data, PhysicalPath, ControllerName, customView);
+            string controllerName = Route.ControllerName.ToLower();
+
+            if (controllerName.Contains("controller"))
+            {
+                controllerName = controllerName.Replace("controller", "");
+            }
+            
+            return new View(statusCode, Object, controllerName, AppPhysicalPath, customView);
         }
 
 

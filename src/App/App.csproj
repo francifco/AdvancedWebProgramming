@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\custom.html" />
-    <Content Include="Views\Home.html" />
+    <Content Include="Views\home.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mvc\Mvc.csproj">

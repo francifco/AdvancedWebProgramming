@@ -15,9 +15,9 @@ namespace App
     {
 
         /// <summary>
-        /// This action send a string with json format to the view.
+        /// This action send a string with json format.
         /// </summary>
-        /// <returns>JObject: json content.</returns>
+        /// <returns>string: json content.</returns>
         [HttpGet]
         public ActionResult MessageStrJson()
         {
@@ -27,7 +27,20 @@ namespace App
         }
 
         /// <summary>
-        /// This action send text without format to the view.
+        /// This action send object to the view.
+        /// </summary>
+        /// <returns>JObject: json content.</returns>
+        [HttpGet]
+        public ActionResult MessageObjectJson()
+        {
+            object objectJson = new { name = "John", age = "31", city = "New York" };
+
+
+            return new JsonResult("200", objectJson);
+        }
+
+        /// <summary>
+        /// This action send text without format.
         /// </summary>
         /// <returns>String: text.</returns>
         [HttpGet]
@@ -38,16 +51,16 @@ namespace App
             return new ContentResult("200", message);
         }
 
-
         /// <summary>
         /// This action create a view Dynamically with text sanded.
         /// </summary>
         /// <returns>JObject: json content.</returns>
+        [HttpGet]
         public ActionResult MessageView()
         {
-            string message = "hola es un test.";
-
-            return View("200", message);
+            object Object = new { tittle = "Home", message = "This is a Message from Home view" };
+            
+            return View("200", Object);
         }
 
     }
