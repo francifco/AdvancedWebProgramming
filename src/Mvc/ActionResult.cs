@@ -15,11 +15,7 @@ namespace Mvc
     /// </summary>
     public abstract class ActionResult: IActionResult
     {
-        /// <summary>
-        /// Identify if the view exist.
-        /// </summary>
-        public bool NotExistingView = true;
-
+        
         /// <summary>
         /// This field Represents the content type.
         /// </summary>

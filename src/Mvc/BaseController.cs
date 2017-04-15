@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 
 
 namespace Mvc
@@ -14,10 +15,11 @@ namespace Mvc
     public class BaseController
     {
 
+
         /// <summary>
         /// This property represents all requests received by controller.
         /// </summary>
-        Request Request;
+        public Request Request;
 
         /// <summary>
         /// This Property is the context of the server to controllers.
@@ -74,14 +76,8 @@ namespace Mvc
             {
                 controllerName = controllerName.Replace("controller", "");
             }
-            
-            object view = new View(statusCode, Object, controllerName, httpContext.Site.physicalPath, customView);
 
-            //if((View)view.GetType.No)
-
-            return (View)view;
+            return new View(statusCode, Object, controllerName, httpContext.Site.physicalPath, customView);
         }
     }
-
-    
 }

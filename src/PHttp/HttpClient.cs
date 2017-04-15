@@ -159,16 +159,12 @@ namespace PHttp
             }
             catch (ObjectDisposedException ex)
             {
-                
                 Console.WriteLine("Failed to read");
-
                 Dispose();
             }
             catch (Exception ex)
             {
-                
                 Console.WriteLine("Failed to read from the HTTP connection");
-
                 ProcessException(ex);
             }
         }

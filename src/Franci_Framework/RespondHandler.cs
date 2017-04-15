@@ -9,6 +9,7 @@ using PHttp;
 using PHttp.Application;
 using Mvc;
 
+
 namespace Franci_Framework
 {
     /// <summary>
@@ -92,12 +93,22 @@ namespace Franci_Framework
                 // else: execute method of one of the apps loaded.
                 else 
                 {
-                    ActionRequest.Add("URLPath", requestEvent.Request.Path.Replace("/"+ SiteName, "")
-                        .ToLower());
+
+                    ActionRequest.Add("URLPath", requestEvent.Request.Path.Replace("/"+ SiteName, "").ToLower());
                     ActionRequest.Add("HttpMethod", requestEvent.Request.HttpMethod);
-                    ActionRequest.Add("Parameters", requestEvent.Request.Form);
-                    ActionRequest.Add("Files", requestEvent.Request.Files);
-                    
+                    ActionRequest.Add("Params", requestEvent.Request.Form);    
+                    ActionRequest.Add("Header", requestEvent.Request.Headers);
+
+                    Dictionary<string, HttpFile> files = new Dictionary<string, HttpFile>();
+
+                    for (int i = 0; i < requestEvent.Request.Files.Count; i++)
+                    {
+                        HttpPostedFile file = requestEvent.Request.Files.Get(i);
+                        HttpFile httpFile = new HttpFile(file.ContentLength, file.ContentType, file.FileName, file.InputStream);
+                        files.Add(requestEvent.Request.Files.GetKey(i), httpFile);
+                    }
+                    ActionRequest.Add("Files", files);
+
                     foreach (IPHttpApplication Application in AllApps.Result)
                     {
                         Site AppSite = (Site)Application.GetSite();
@@ -107,8 +118,19 @@ namespace Franci_Framework
                             var response = Application.ExecuteAction(ActionRequest);
                             requestEvent.Response.Status = ((ActionResult)response).GetStatusCode();
                             requestEvent.Response.ContentType = ((ActionResult)response).GetContentType();
-                            stream = (MemoryStream)((ActionResult)response).GetRespond();
-                            return new HttpOutputStream(stream);
+
+                            try
+                            {
+                                stream = (MemoryStream)((ActionResult)response).GetRespond();
+                                return new HttpOutputStream(stream);
+                            }
+                            catch(Exception ex)
+                            {
+                                requestEvent.Response.ContentType = MimeTypeMap.GetMimeType(Path.GetExtension(configurationManager.errorPages["404"]));
+                                requestEvent.Response.Status = "404";
+                                data = File.ReadAllBytes(configurationManager.errorPages["404"]);
+                            }
+                            
                         }
                         
                     } 

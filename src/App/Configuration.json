@@ -1,0 +1,14 @@
+﻿{
+  "name": "App1 Web Site",
+  "physicalPath": "../../../App1",
+  "virtualPath": "App1",
+  "directoryBrowsing": true,
+  "defaultDocument": {
+    "home": "../../../App1/Views/home.html",
+    "custom": "../../../App1/Views/custom.html"
+  },
+  "errorPages": {
+    "404": "../../../App1/Views/404.html",
+    "500": "../../../App1/Views/500.html"
+  }
+}
