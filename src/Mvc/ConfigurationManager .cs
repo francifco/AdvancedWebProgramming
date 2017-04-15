@@ -45,7 +45,7 @@ namespace Mvc
         /// </summary>
         public void Load()
         {
-            string filePath = @"../../../Mvc/config.json";
+            string filePath = @"../../../PHttp/config.json";
 
             if (File.Exists(filePath))
             {
@@ -62,6 +62,7 @@ namespace Mvc
                 this.sites = JsonConvert.DeserializeObject<List<Site>>(jsonConfigFile["sites"].ToString());
 
                 this.ConfigLoaded = true;
+
             }
             else
             {
@@ -98,46 +99,35 @@ namespace Mvc
         public void UpdateConfigFile()
         {
             string rootpath = "../../../";
-            string[] ingoreFolders = { "PHttp", "Mvc", "Franci_Framework", "packages", ".vs" };
+            
+            string[] ingoreFolders = { "PHttp", "Mvc", "Franci_Framework", "packages", ".vs","artifacts" };
 
             List<string> directoriesSites = GetDirectories(rootpath, ingoreFolders);
-            List<string> directoriesFiles = new List<string>();
 
-            for (int i = 0; i < directoriesSites.Count; i++)
+            DirectoryInfo directoryInfo;
+            FileInfo[] fileInfo;
+
+            List<string> directoriesConfigs = new List<string>();
+
+            foreach (string dirSite in directoriesSites)
             {
-                if (directoriesSites[i].Contains("\\Views"))
+                directoryInfo = new DirectoryInfo(dirSite);
+                fileInfo = directoryInfo.GetFiles("*.json");
+
+                foreach (FileInfo fi in fileInfo)
                 {
-                    string[] dirFiles = Directory.GetFiles(directoriesSites[i]);
-                    directoriesFiles.AddRange(RemoveSubString(dirFiles,"\\"));
-                    break;
+                    string site = File.ReadAllText(fi.FullName);
+
+                    JObject AppSite = JObject.Parse(site);
+
+
                 }
-                
+
             }
+            
 
-
-            //TODO: modificar el archivo .json
-
-            //TODO: carga la configuracion inicial de nuevo.
-            // Load();
         }
 
-        /// <summary>
-        /// Removes list of the substring received.
-        /// </summary>
-        /// <param name="dirFiles">string[]: Path of the files.</param>
-        /// <param name="SubString">string: string to remove.</param>
-        /// <returns></returns>
-        private List<string> RemoveSubString(string[] dirFiles, string SubString)
-        {
-            List<string> NewdirFiles = new List<string>();
-
-            for (int i = 0; i < dirFiles.Length; i++)
-            {
-                NewdirFiles.Add(dirFiles[i].Replace(SubString, "/"));
-            }
-
-            return NewdirFiles;
-        }
 
         /// <summary>
         /// Gets all directories from path received.
@@ -148,13 +138,10 @@ namespace Mvc
         private static List<string> GetDirectories(string path, string[] ingoreFolders)
         {
             string searchPattern = "*";
-
+           
             List<string> directories = GetDirectories(path, searchPattern);
 
             directories = RemoveDirectories(directories, ingoreFolders);
-
-            for (var i = 0; i < directories.Count; i++)
-                directories.AddRange(GetDirectories(directories[i], searchPattern));
 
             return directories;
         }

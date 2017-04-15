@@ -15,6 +15,11 @@ namespace Mvc
     {
 
         /// <summary>
+        /// Identify if the view exist.
+        /// </summary>
+        bool NotExistingView = true;
+
+        /// <summary>
         /// Data to send to the view.
         /// </summary>
         object Data;
@@ -65,22 +70,28 @@ namespace Mvc
             customViewPath += ".html";
             defaultViewPath += ".html";
 
-            if (!string.IsNullOrEmpty(customViewPath) && File.Exists(customViewPath))
+            /// If the custom view parameter was entered. 
+            if (!string.IsNullOrEmpty(customViewPath))
             {
-                dataDynamicView = File.ReadAllBytes(customViewPath);
+                if (File.Exists(customViewPath))
+                {
+                    dataDynamicView = File.ReadAllBytes(customViewPath);
+                }
+                else
+                {
+                    return (string)"404";
+                }
             }
-            else
+            else  /// If the custom view parameter was not entered. 
             {
                 if (File.Exists(defaultViewPath))
                 {
                     dataDynamicView = File.ReadAllBytes(defaultViewPath);
                 }
-                else //if no exist default view and custom view.
+                else
                 {
-                    this.StatusCode = "404";
-                    NotExistingView = false;
+                    return  (string)"404";
                 }
-
             }
 
             var template = Handlebars.Compile(Encoding.Default.GetString(dataDynamicView));

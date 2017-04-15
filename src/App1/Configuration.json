@@ -1,0 +1,13 @@
+﻿{
+  "name": "App Web Site",
+  "virtualPath": "App",
+  "directoryBrowsing": true,
+  "defaultDocument": {
+    "home": "../../../App/Views/home.html",
+    "custom": "../../../App/Views/custom.html"
+  },
+  "errorPages": {
+    "404": "../../../App/Views/404.html",
+    "500": "../../../App/Views/500.html"
+  }
+}

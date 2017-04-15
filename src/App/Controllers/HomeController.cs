@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mvc;
-using Newtonsoft.Json.Linq;
+
 
 namespace App
 {
@@ -26,6 +26,18 @@ namespace App
             return new JsonResult("200", StrJson);
         }
 
+
+        [HttpPost]
+        public ActionResult LoginUser()
+        {
+            string username = (string)Request.Params["username"];
+            string pass = (string)Request.Params["password"];
+
+            object userObject = new { Username = username, Password = pass };
+
+            return new JsonResult("200", userObject);
+        }
+
         /// <summary>
         /// This action send object to the view.
         /// </summary>
@@ -34,8 +46,6 @@ namespace App
         public ActionResult MessageObjectJson()
         {
             object objectJson = new { name = "John", age = "31", city = "New York" };
-
-
             return new JsonResult("200", objectJson);
         }
 
@@ -73,7 +83,7 @@ namespace App
         {
             object Object = new {tittle = "Custom", message = "This is a Message from Custom view." };
 
-            return View("200", Object, "custom");
+            return View("200", Object, "custo");
         }
 
     }

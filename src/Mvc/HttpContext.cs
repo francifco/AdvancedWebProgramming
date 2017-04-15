@@ -11,6 +11,13 @@ namespace Mvc
     /// </summary>
     public class HttpContext
     {
+
+
+        /// <summary>
+        /// This field is the representative of the request header
+        /// </summary>
+        public Dictionary<string, object> Headers;
+
         /// <summary>
         /// Context of site.
         /// </summary>

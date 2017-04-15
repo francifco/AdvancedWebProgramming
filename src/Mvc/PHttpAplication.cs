@@ -7,6 +7,7 @@ using PHttp.Application;
 using System.IO;
 using System.Reflection;
 using PHttp;
+using System.Collections.Specialized;
 
 namespace Mvc
 {
@@ -37,10 +38,25 @@ namespace Mvc
 
         public event ApplicationStartMethod ApplicationStart;
 
+
+        /// <summary>
+        /// This field is the representative of the request header
+        /// </summary>
+        Dictionary<string, object> Headers;
+
+        /// <summary>
+        /// List of Actual routes in the application.
+        /// </summary>
         public List<Route> Routes;
 
-        public string URLPattern{get; set;}
+        /// <summary>
+        /// Pattern of URL request.
+        /// </summary>
+        public string URLPattern { get; set; }
 
+        /// <summary>
+        /// Actual site to evaluate.
+        /// </summary>
         public Site AppSite;
 
         /// <summary>
@@ -88,7 +104,7 @@ namespace Mvc
                 {
                     if (type != typeof(BaseController) && typeof(BaseController).IsAssignableFrom(type))
                     {
-                        string controller="";
+                        string controller = "";
                         string controllerName = "";
                         baseController = (BaseController)Activator.CreateInstance(type);
                         controllerName = baseController.GetType().Name;
@@ -97,13 +113,14 @@ namespace Mvc
                         {
                             controller += "/" + controllerName.Replace("Controller", "").ToLower();
                         }
-                        else {
+                        else
+                        {
                             controller += "/" + controllerName.ToLower();
                         }
-                        
+
                         foreach (MethodInfo method in baseController.GetType().GetMethods())
                         {
-                            
+
                             URLPath += controller + "/" + method.Name.ToLower();
                             object[] attributes = method.GetCustomAttributes(true);
 
@@ -137,57 +154,69 @@ namespace Mvc
         {
             if (Routes == null)
             {
-
+                ///TODO: resolver esto.
                 return "500";
             }
-            else {
+            else
+            {
 
                 foreach (Route route in Routes)
                 {
                     if (route.UrlPath == RequestAction["URLPath"].ToString())
-                    {   
+                    {
                         /// TODO: si no hay metodo definido, aceptarlocomo si fuera un Get por defecto
-                      //if (route.ControllerName != RequestAction["HttpMethod"].ToString())
-                      //  {
-                      //      return "500";
-                      //  }
-                        
-                     //   else {
-                            BaseController baseController = new BaseController();
-                            DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath + "/bin/Debug");
-                            FileInfo[] fileInfo = directoryInfo.GetFiles("*.dll");
+                        //if (route.ControllerName != RequestAction["HttpMethod"].ToString())
+                        //  {
+                        //      return "500";
+                        //  }
 
-                            foreach (FileInfo fi in fileInfo)
+                        //   else {
+                        BaseController baseController = new BaseController();
+                        DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath + "/bin/Debug");
+                        FileInfo[] fileInfo = directoryInfo.GetFiles("*.dll");
+
+                        foreach (FileInfo fi in fileInfo)
+                        {
+                            Assembly assembly = Assembly.LoadFrom(fi.FullName);
+
+                            foreach (var type in assembly.GetTypes())
                             {
-                                Assembly assembly = Assembly.LoadFrom(fi.FullName);
-
-                                foreach (var type in assembly.GetTypes())
+                                if (type != typeof(BaseController) && typeof(BaseController).IsAssignableFrom(type))
                                 {
-                                    if (type != typeof(BaseController) && typeof(BaseController).IsAssignableFrom(type))
+                                    baseController = (BaseController)Activator.CreateInstance(type);
+
+                                    //for test.
+                                    string urlPath = (string)RequestAction["URLPath"];
+                                    string mehod = (string)RequestAction["HttpMethod"];
+                                    NameValueCollection header = (NameValueCollection)RequestAction["Header"];
+                                    NameValueCollection parameters = (NameValueCollection)RequestAction["Params"];
+                                    Dictionary<string, HttpFile> files = (Dictionary<string, HttpFile>)RequestAction["Files"];
+
+                                    baseController.Request = new Request(urlPath, mehod, header, parameters, files);
+
+                                    baseController.Route = route;
+                                    baseController.httpContext.Site.physicalPath = AppSite.physicalPath;
+                                    
+                                    if (baseController.GetType().Name == route.ControllerName)
                                     {
-                                        baseController = (BaseController)Activator.CreateInstance(type);
-                                        baseController.Route = route;
-                                        baseController.httpContext.Site.physicalPath = AppSite.physicalPath;
-
-                                        if (baseController.GetType().Name == route.ControllerName)
-                                        {
-                                            MethodInfo method = baseController.GetType().GetMethod(route.ActionName);
-                                            ActionResult result = (ActionResult)method.Invoke(baseController, new object[] { });
-                                            return result;
-                                        }
-
+                                        MethodInfo method = baseController.GetType().GetMethod(route.ActionName);
+                                        ActionResult result = (ActionResult)method.Invoke(baseController, new object[] { });
+                                        Headers = baseController.httpContext.Headers;
+                                        return result;
                                     }
+
                                 }
                             }
+                        }
 
-                      //  }
+                        //  }
                     }
 
                 }
             }
 
-            
-                return null;
+
+            return null;
         }
 
         /// <summary>
@@ -210,7 +239,7 @@ namespace Mvc
         /// <param name="pattern"></param>
         public void RegisterURLPatern(string pattern)
         {
-            this.URLPattern = pattern; 
+            this.URLPattern = pattern;
         }
 
 
