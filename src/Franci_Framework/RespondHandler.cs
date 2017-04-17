@@ -64,7 +64,8 @@ namespace Franci_Framework
         /// <returns>HttpOutputStream: Event respond of the argument received.</returns>
         public HttpOutputStream GetRespond(HttpRequestEventArgs requestEvent)
         {
-             ActionRequest = new Dictionary<string, object>();
+            ActionRequest = new Dictionary<string, object>();
+            Site site;
             
             /// Array of the URL path received.
             string[] UrlSplited = requestEvent.Request.Path.Replace("favicon.ico", string.Empty).Split('/');
@@ -93,51 +94,70 @@ namespace Franci_Framework
                 // else: execute method of one of the apps loaded.
                 else 
                 {
+                    string URLPath = requestEvent.Request.Path.Replace("/", "").ToLower();
 
-                    ActionRequest.Add("URLPath", requestEvent.Request.Path.Replace("/"+ SiteName, "").ToLower());
-                    ActionRequest.Add("HttpMethod", requestEvent.Request.HttpMethod);
-                    ActionRequest.Add("Params", requestEvent.Request.Form);    
-                    ActionRequest.Add("Header", requestEvent.Request.Headers);
-
-                    Dictionary<string, HttpFile> files = new Dictionary<string, HttpFile>();
-
-                    for (int i = 0; i < requestEvent.Request.Files.Count; i++)
+                    if (URLPath.Equals(SiteName.ToLower()))
                     {
-                        HttpPostedFile file = requestEvent.Request.Files.Get(i);
-                        HttpFile httpFile = new HttpFile(file.ContentLength, file.ContentType, file.FileName, file.InputStream);
-                        files.Add(requestEvent.Request.Files.GetKey(i), httpFile);
-                    }
-                    ActionRequest.Add("Files", files);
+                        site = configurationManager.GetSiteByVirtualPath(SiteName);
 
-                    foreach (IPHttpApplication Application in AllApps.Result)
-                    {
-                        Site AppSite = (Site)Application.GetSite();
-
-                        if(AppSite.virtualPath.ToLower() == SiteName.ToLower())
+                        if (string.IsNullOrEmpty(site.defaultDocument["index"]))
                         {
-                            var response = Application.ExecuteAction(ActionRequest);
-                            requestEvent.Response.Status = ((ActionResult)response).GetStatusCode();
-                            requestEvent.Response.ContentType = ((ActionResult)response).GetContentType();
-
-                            try
-                            {
-                                stream = (MemoryStream)((ActionResult)response).GetRespond();
-                                return new HttpOutputStream(stream);
-                            }
-                            catch(Exception ex)
-                            {
-                                requestEvent.Response.ContentType = MimeTypeMap.GetMimeType(Path.GetExtension(configurationManager.errorPages["404"]));
-                                requestEvent.Response.Status = "404";
-                                data = File.ReadAllBytes(configurationManager.errorPages["404"]);
-                            }
-                            
+                            requestEvent.Response.ContentType = MimeTypeMap.GetMimeType(Path.GetExtension(configurationManager.defaultDocument["index"]));
+                            requestEvent.Response.Status = "200";
+                            data = File.ReadAllBytes(configurationManager.defaultDocument["index"]);
                         }
-                        
-                    } 
+                        else
+                        {
+                            requestEvent.Response.ContentType = MimeTypeMap.GetMimeType(Path.GetExtension(site.defaultDocument["index"]));
+                            requestEvent.Response.Status = "200";
+                            data = File.ReadAllBytes(site.defaultDocument["index"]);
+                        } 
+                    }
+                    else // TODO: verificar esta parte.
+                    {
+                        ActionRequest.Add("URLPath", requestEvent.Request.Path.Replace("/" + SiteName, "").ToLower());
+                        ActionRequest.Add("HttpMethod", requestEvent.Request.HttpMethod);
+                        ActionRequest.Add("Params", requestEvent.Request.Form);
+                        ActionRequest.Add("Header", requestEvent.Request.Headers);
 
-   
+                        Dictionary<string, HttpFile> files = new Dictionary<string, HttpFile>();
+
+                        for (int i = 0; i < requestEvent.Request.Files.Count; i++)
+                        {
+                            HttpPostedFile file = requestEvent.Request.Files.Get(i);
+                            HttpFile httpFile = new HttpFile(file.ContentLength, file.ContentType, file.FileName, file.InputStream);
+                            files.Add(requestEvent.Request.Files.GetKey(i), httpFile);
+                        }
+                        ActionRequest.Add("Files", files);
+
+                        foreach (IPHttpApplication Application in AllApps.Result)
+                        {
+                            Site AppSite = (Site)Application.GetSite();
+
+                            if (AppSite.virtualPath.ToLower() == SiteName.ToLower())
+                            {
+                                var response = Application.ExecuteAction(ActionRequest);
+                                requestEvent.Response.Status = ((ActionResult)response).GetStatusCode();
+                                requestEvent.Response.ContentType = ((ActionResult)response).GetContentType();
+
+                                try
+                                {
+                                    stream = (MemoryStream)((ActionResult)response).GetRespond();
+                                    return new HttpOutputStream(stream);
+                                }
+                                catch (Exception ex)
+                                {
+                                    requestEvent.Response.ContentType = MimeTypeMap.GetMimeType(Path.GetExtension(configurationManager.errorPages["404"]));
+                                    requestEvent.Response.Status = "404";
+                                    data = File.ReadAllBytes(configurationManager.errorPages["404"]);
+                                }
+
+                            }
+
+                        }
+                    }
+                    
                     /// TODO:hacer que se actualize site en el js despues que el user cree algun view. 
-
                 }
             }
 
