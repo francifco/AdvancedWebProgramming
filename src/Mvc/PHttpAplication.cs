@@ -126,7 +126,7 @@ namespace Mvc
 
                             foreach (var attribute in attributes)
                             {
-                                if (attribute.GetType().IsSubclassOf(typeof(HttpMethod)))
+                                if (attribute.GetType().IsSubclassOf(typeof(Attribute)))
                                 {
                                     string httpMethod = attribute.GetType().Name;
                                     httpMethod = httpMethod.ToUpper().Replace("HTTP", "");
@@ -135,8 +135,9 @@ namespace Mvc
                                     Routes.Add(route);
                                     URLPath = "";
                                 }
-
+                                
                             }
+                            URLPath = "";
                         }
 
                     }
@@ -152,6 +153,9 @@ namespace Mvc
         /// <returns>Object: Action with to precessed.</returns>
         public object ExecuteAction(Dictionary<string, object> RequestAction)
         {
+
+            ActionResult result;
+
             if (Routes == null)
             {
                 ///TODO: resolver esto.
@@ -199,10 +203,35 @@ namespace Mvc
                                     
                                     if (baseController.GetType().Name == route.ControllerName)
                                     {
+
                                         MethodInfo method = baseController.GetType().GetMethod(route.ActionName);
-                                        ActionResult result = (ActionResult)method.Invoke(baseController, new object[] { });
+                                        AuthorizeAttribute attribute = (AuthorizeAttribute)method.GetCustomAttribute(typeof(AuthorizeAttribute));
+                                        User user = null;
+
+                                        if (attribute != null)
+                                        {
+                                            if (!attribute.IsAuthorized(baseController.Request))
+                                            {
+                                                Console.WriteLine("user no authorized..");
+
+                                                /// TODO: deberia de cargar la configuracion del context
+                                                /// la configuracion del usuario que crea la app.
+                                                ConfigurationManager conf = new ConfigurationManager();
+                                                conf.Load();                               
+
+                                            }
+                                            else
+                                            {
+                                                result = (ActionResult)method.Invoke(baseController, new object[] { });
+                                                Headers = baseController.httpContext.Headers;
+                                                return result;
+                                            }
+                                        }
+
+                                        result = (ActionResult)method.Invoke(baseController, new object[] { });
                                         Headers = baseController.httpContext.Headers;
                                         return result;
+
                                     }
 
                                 }

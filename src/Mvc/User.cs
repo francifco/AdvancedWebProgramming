@@ -7,23 +7,29 @@ using System.Threading.Tasks;
 namespace Mvc
 {
     /// <summary>
-    /// clase respresentante de un usuario en la aplicacion.
+    /// This class is a representative class of a user in the application.
     /// </summary>
     public class User
     {
         /// <summary>
-        /// "Field" del nombre de usuario.
+        /// This property represents the user name of user.
         /// </summary>
-        string UserName { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
-        /// "Field': clave del usuario.
+        /// This property represents the password of user.
         /// </summary>
-        string Password { get; set; }
+        public string Password { get; set; }
 
         /// <summary>
-        /// "Field': token del usuario.
+        /// This property represents the secret word for user token.
         /// </summary>
-        string token { get; set; }
+        public string SecretWord { get; set; }
+
+        /// <summary>
+        /// This Field represent the lifetime of the session with the token.
+        /// </summary>
+        public double ExpirationTime;
+
     }
 }

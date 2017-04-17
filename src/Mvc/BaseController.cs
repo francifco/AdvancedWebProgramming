@@ -34,7 +34,7 @@ namespace Mvc
         /// <summary>
         /// This property handles the session dictionary.
         /// </summary>
-        public Dictionary<string, string> Session { get; set; }
+       // public Session session;
 
         /// <summary>
         /// This property is for the handling of the authentication 
