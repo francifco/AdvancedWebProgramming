@@ -108,12 +108,13 @@ namespace Franci_Framework
                         }
                         else
                         {
+                            
                             requestEvent.Response.ContentType = MimeTypeMap.GetMimeType(Path.GetExtension(site.defaultDocument["index"]));
                             requestEvent.Response.Status = "200";
                             data = File.ReadAllBytes(site.defaultDocument["index"]);
                         } 
                     }
-                    else // TODO: verificar esta parte.
+                    else 
                     {
                         ActionRequest.Add("URLPath", requestEvent.Request.Path.Replace("/" + SiteName, "").ToLower());
                         ActionRequest.Add("HttpMethod", requestEvent.Request.HttpMethod);

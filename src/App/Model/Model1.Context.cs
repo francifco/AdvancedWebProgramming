@@ -16,7 +16,7 @@ namespace App.Model
     public partial class pickurlEntities : DbContext
     {
         public pickurlEntities()
-            : base("name=pickurlEntities")
+            : base("metadata=res://*/Model.Model1.csdl|res://*/Model.Model1.ssdl|res://*/Model.Model1.msl;provider=MySql.Data.MySqlClient;provider connection string=&quot;user id=root;password=ibornin1988;persistsecurityinfo=True;database=pickurl&quot;")
         {
         }
     

@@ -1,14 +1,14 @@
 ﻿{
   "name": "App1 Web Site",
-  "physicalPath": "../../../App1",
+  "physicalPath": "App1",
   "virtualPath": "App",
   "directoryBrowsing": true,
   "defaultDocument": {
-    "index": "../../../App/Views/RegisterUser.html",
-    "custom": "../../../App/Views/custom.html"
+    "index": "App/Views/RegisterUser.html",
+    "custom": "App/Views/custom.html"
   },
   "errorPages": {
-    "404": "../../../App/Views/404.html",
-    "500": "../../../App/Views/500.html"
+    "404": "App/Views/404.html",
+    "500": "App/Views/500.html"
   }
 }

@@ -1,32 +1,32 @@
 {
     "port": 8080,
     "errorPages": {
-        "401": "../../../PHttp/Resources/ErrorPages/401.html",
-        "403": "../../../PHttp/Resources/ErrorPages/403.html",
-        "404": "../../../PHttp/Resources/ErrorPages/404.html",
-        "405": "../../../PHttp/Resources/ErrorPages/405.html",
-        "406": "../../../PHttp/Resources/ErrorPages/406.html",
-        "412": "../../../PHttp/Resources/ErrorPages/412.html",
-        "500": "../../../PHttp/Resources/ErrorPages/500.html",
-        "501": "../../../PHttp/Resources/ErrorPages/501.html",
-        "502": "../../../PHttp/Resources/ErrorPages/502.html"
+        "401": "PHttp/Resources/ErrorPages/401.html",
+        "403": "PHttp/Resources/ErrorPages/403.html",
+        "404": "PHttp/Resources/ErrorPages/404.html",
+        "405": "PHttp/Resources/ErrorPages/405.html",
+        "406": "PHttp/Resources/ErrorPages/406.html",
+        "412": "PHttp/Resources/ErrorPages/412.html",
+        "500": "PHttp/Resources/ErrorPages/500.html",
+        "501": "PHttp/Resources/ErrorPages/501.html",
+        "502": "PHttp/Resources/ErrorPages/502.html"
     },
     "defaultDocument": {
-        "index": "../../../PHttp/Resources/DefaultDocuments/Pages/index.html"
+        "index": "PHttp/Resources/DefaultDocuments/Pages/index.html"
     },
     "sites": [
     {
       "name": "App1 Web Site",
-      "physicalPath": "../../../App",
+      "physicalPath": "App",
       "virtualPath": "App",
       "directoryBrowsing": true,
       "defaultDocument": {
-        "index": "../../../App/Views/RegisterUser.html",
-        "custom": "../../../App/Views/custom.html"
+        "index": "App/Views/RegisterUser.html",
+        "custom": "App/Views/custom.html"
       },
       "errorPages": {
-        "404": "../../../App/Views/404.html",
-        "500": "../../../App/Views/500.html"
+        "404": "App/Views/404.html",
+        "500": "App/Views/500.html"
       }
     }
     ]

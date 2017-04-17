@@ -12,10 +12,18 @@ namespace Mvc
         
     }
 
+    /// <summary>
+    /// This attribute is responsive for user-token authentication.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute: Attribute
     {
 
+        /// <summary>
+        /// Evaluate user-token.
+        /// </summary>
+        /// <param name="request">object: Request.</param>
+        /// <returns>True: authorized, false: no authorized.</returns>
         public bool IsAuthorized(Request request)
         {
             string token = request.Headers["auth-token"];

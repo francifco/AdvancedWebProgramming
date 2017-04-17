@@ -45,7 +45,7 @@ namespace Mvc
         /// </summary>
         public void Load()
         {
-            string filePath = @"../../../PHttp/config.json";
+            string filePath = @"PHttp/config.json";
 
             if (File.Exists(filePath))
             {
@@ -98,7 +98,7 @@ namespace Mvc
         /// </summary>
         public void UpdateConfigFile()
         {
-            string rootpath = "../../../";
+            string rootpath = "";
             
             string[] ingoreFolders = { "PHttp", "Mvc", "Franci_Framework", "packages", ".vs","artifacts" };
 
@@ -178,7 +178,7 @@ namespace Mvc
                 {
                     if (directory[j].Contains(ingnoreFolders[i]))
                     {
-                        directory.Remove("../../../" + ingnoreFolders[i]);
+                        directory.Remove(ingnoreFolders[i]);
                         break;
                     }
                 }
