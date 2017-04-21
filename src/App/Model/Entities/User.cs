@@ -11,6 +11,9 @@ namespace App.Model.Entities
     /// </summary>
     public class User
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public int id;
         public string lastName;
         public string firstName;
