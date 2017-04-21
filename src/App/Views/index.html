@@ -43,10 +43,14 @@
         <label> {{message}}</label>
     </h1>
 
-    <form action="generateUrl" method="post" enctype="multipart/form-data">
+    <form action="GetURL" method="post" enctype="multipart/form-data">
         Enter URL:
         <input type="text" name="url">
         <br><br>
+
+        <input type="text" name="idUser"  style="display: none;" value="{{idUser}}">
+        <input type="text" name="token" style="display: none;" value="{{token}}">
+
         <input type="submit" value="Generate URL">
         <br><br>
     </form>
@@ -60,6 +64,10 @@
         <input type="button" value="Register" />
     </a>
 
+    <h1>
+        <label> {{url}}</label>
+    </h1>
+
 
     <div class="entry">
         {{#if userLogged}}
@@ -72,12 +80,16 @@
     </div>
 
     <div id="token" style="display: none;">{{token}}</div>
+    <div id="idUser" style="display: none;">{{idUser}}</div>
 
 
     <script>
 
         var token = document.getElementById('token').innerHTML;
         document.cookie = "token = " + token + "";
+
+        var token = document.getElementById('idUser').innerHTML;
+        document.cookie = "idUser = " + token + "";
 
         function readCookie(name) {
             var nameEQ = name + "=";
@@ -92,6 +104,8 @@
         }
 
         var value = readCookie('token');
+        var value = readCookie('idUser');
+        console.log("token:" + value);
         console.log("token:" + value);
 
     </script>

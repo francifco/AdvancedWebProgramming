@@ -111,8 +111,9 @@ namespace Franci_Framework
                         ActionRequest.Add("HttpMethod", requestEvent.Request.HttpMethod);
                         ActionRequest.Add("Params", requestEvent.Request.Form);
                         ActionRequest.Add("Header", requestEvent.Request.Headers);
+                        ActionRequest.Add("QueryParams", requestEvent.Request.Params);
 
-                        Dictionary<string, HttpFile> files = new Dictionary<string, HttpFile>();
+                    Dictionary<string, HttpFile> files = new Dictionary<string, HttpFile>();
 
                         for (int i = 0; i < requestEvent.Request.Files.Count; i++)
                         {

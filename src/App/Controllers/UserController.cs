@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mvc;
+using System.IO;
+using System.Text.RegularExpressions;
 
 
 namespace App
@@ -68,15 +70,7 @@ namespace App
 
             userRepository.AddUser(user);
 
-            string secretWord = "secretFco";
-            string tokenGenerated = Session.GenerateToken(user.username, user.password, secretWord);
-
-            string strRespond = @"{ ""auth-token"":" + tokenGenerated + ","
-               + "username" + ":" + user.username + ", "
-               + "secret-key" + ":" + secretWord + "}";
-
-            return new JsonResult("200", strRespond);
-
+            return null;
         }
 
         /// <summary>
@@ -153,6 +147,7 @@ namespace App
                 respond = new {
                     tittle = "Pick Url",
                     token = tokenGenerated,
+                    idUser = user.id,
                     option = "Sign Out",
                     message = "Welcome to Pick Url.",
                     userLogged = user.firstName
@@ -185,8 +180,104 @@ namespace App
             return new JsonResult("200", StrJson);
         }
 
-   
-        // for test the view.
+
+        /// <summary>
+        /// This action is for creation of shorted url.
+        /// </summary>
+        /// <returns>string: a Shorted Url.</returns>
+        //[Authorize]
+        [HttpGet]
+        public ActionResult GetURL()
+        {
+           
+            string shortUrl = Path.GetRandomFileName();
+            shortUrl = shortUrl.Replace(".", "");
+            shortUrl = Request.QueryParams["Host"] + "/app/url/click/" + shortUrl;
+
+            Model.Repository.UrlRepository urlRepo = new Model.Repository.UrlRepository();
+
+            Model.Entities.Url url = new Model.Entities.Url();
+
+            url.LargeUrl = Request.Params["url"];
+            url.ShortenedURL = shortUrl;
+
+            url.userId = Request.Params["idUser"];
+            string token = Request.Params["token"];
+
+            url.clicks = 0;
+
+            urlRepo.AddUrl(url);
+
+            object respond = new
+            {
+                tittle = "Pick Url",
+                url = shortUrl,
+                option = "Sign Out",
+                message = "Welcome to Pick Url."
+            };
+            
+            return View("401", respond, "index");
+        }
+
+
+        [HttpPost]
+        public void click()
+        {
+            var referer = Request.QueryParams["Referer"];
+            var location = Request.QueryParams["REMOTE_ADDR"];
+            var agent = Request.QueryParams["HTTP_USER_AGENT"];
+            var platform = Regex.Match(Request.QueryParams["HTTP_USER_AGENT"], @"\(([^)]*)\)").Groups[1].Value;
+            platform = platform.Split(';')[0];
+            var shortUrl = Request.QueryParams["Host"] + Request.QueryParams["URL"];
+
+            if (agent.Contains("Firefox/") && !agent.Contains("Seamonkey/"))
+            {
+                agent = "Firefox";
+            }
+            else if (agent.Contains("Seamonkey/"))
+            {
+                agent = "Seamonkey";
+            }
+            else if (agent.Contains("Chrome/") && !agent.Contains("Chromium/") && !agent.Contains("Edge/"))
+            {
+                agent = "Chrome";
+            }
+            else if (agent.Contains("Edge/"))
+            {
+                agent = "Edge";
+            }
+            else if (agent.Contains("Chromium/"))
+            {
+                agent = "Chromium";
+            }
+            else if (agent.Contains("Safari/") && !agent.Contains("Chromium/") && !agent.Contains("Chrome/"))
+            {
+                agent = "Safari";
+            }
+            else if (agent.Contains("OPR/") || agent.Contains("Opera/"))
+            {
+                agent = "Opera";
+            }
+            else if (agent.Contains("MSIE") || agent.Contains("Trident/"))
+            {
+                agent = "Internet Explorer";
+            }
+
+           
+
+        }
+
+
+        [HttpGet]
+        public ActionResult GeteAllURL()
+        {
+            int userId;
+
+            return null;
+        }
+
+
+
 
         /// <summary>
         /// This action create a view Dynamically with text sent.

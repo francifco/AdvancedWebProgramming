@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
-using System.Data.SqlClient;
+
 
 namespace App.Model.Repository
 {
@@ -17,7 +17,7 @@ namespace App.Model.Repository
     {
 
         ///TODO: hacer que esta palabra se guarde en el archivo de configuracion del site.
-        string connStr = @"Server=localhost;Database=pickurl;User Id=root;Password=ibornin1988;";
+        string connStr = @"Server=localhost;Database=pickurl;User Id=root;Password=secret;";
 
         /// <summary>
         /// Add a new user into data base.
