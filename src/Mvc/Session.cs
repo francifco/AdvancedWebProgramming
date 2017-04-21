@@ -24,25 +24,19 @@ namespace Mvc
         /// <param name="user">object: user</param>
         /// <param name="token">string: token</param>
         /// <returns>True: If is correct, false: isn't</returns>
-        static public bool GetUserAuthority(string username, string token, string secret)
+        static public AuthorizationUser GetUserAuthorised(string token, string secret)
         {
-            if (string.IsNullOrEmpty(username)
-                || string.IsNullOrEmpty(token) || string.IsNullOrEmpty(secret))
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(secret))
             {
                 Console.WriteLine("The token was not verified. Any field of user are empty.");
-                return false;
+                return null;
             }
 
             string tokenDecoded = JsonWebToken.Decode(token, secret);
 
-            User userGenerated = JsonConvert.DeserializeObject<User>(tokenDecoded);
-
-            if (userGenerated.Username == username)
-            {
-                return true;
-            }
-
-            return false;
+            AuthorizationUser userGenerated = JsonConvert.DeserializeObject<AuthorizationUser>(tokenDecoded);
+            
+            return userGenerated;
         }
 
         /// <summary>
@@ -51,10 +45,11 @@ namespace Mvc
         /// <param name="user">object: user</param>
         /// <param name="token">string: token</param>
         /// <returns>True: if was expired , false: Was not expired.</returns>
-        static public bool ExpiredTime(string username, string token, string secret)
+        static public bool ExpiredTime(AuthorizationUser user, string token, string secret)
         {
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(token) || string.IsNullOrEmpty(secret))
+            if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(token) 
+                || string.IsNullOrEmpty(secret) || string.IsNullOrEmpty(user.Password))
             {
                 Console.WriteLine("The lifetime of token was not evaluated. Maybe any parameter are empty.");
                 return true;
@@ -62,7 +57,7 @@ namespace Mvc
 
             string strJson = JsonWebToken.Decode(token, secret, false);
 
-            User userGenerated = JsonConvert.DeserializeObject<User>(strJson);
+            AuthorizationUser userGenerated = JsonConvert.DeserializeObject<AuthorizationUser>(strJson);
 
             DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             double now = Math.Round((DateTime.Now - unixEpoch).TotalSeconds);
@@ -79,7 +74,7 @@ namespace Mvc
         /// <summary>
         /// This Method generate a token code for 40 minutes to expire.
         /// </summary>
-        /// <param name="user">Object: User</param>
+        /// <param name="user">Object: MvcUser</param>
         /// /// <param name="secretword">string: The secret Word.</param>
         /// <returns>string: Token.</returns>
         public static string GenerateToken(string username, string password, string secret)

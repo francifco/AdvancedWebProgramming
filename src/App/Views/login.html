@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{tittle}}</title>
+</head>
+<body>
+    <h3>
+        {{message}}
+    </h3>
+    <form action="LoginUser" method="post" enctype="multipart/form-data">
+        Username:<br>
+        <input type="text" name="username">
+        <br>
+        Password:<br>
+        <input type="password" name="password">
+        <br><br>
+        <input type="submit" value="Login">
+
+        <a href="Index">
+            <input type="button" value="Go to Home" />
+        </a>
+
+        <font color="red">{{errorMessage}}</font>
+    </form>
+</body>
+</html>

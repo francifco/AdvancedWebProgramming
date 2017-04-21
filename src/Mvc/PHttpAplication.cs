@@ -93,7 +93,7 @@ namespace Mvc
             //string defaultPattern = "{controller}/{action}/{id}";
             string URLPath = "";
             BaseController baseController = new BaseController();
-            DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath + "/bin/Debug");
+            DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath);
             FileInfo[] fileInfo = directoryInfo.GetFiles("*.dll");
 
             foreach (FileInfo fi in fileInfo)
@@ -176,7 +176,7 @@ namespace Mvc
 
                         //   else {
                         BaseController baseController = new BaseController();
-                        DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath + "/bin/Debug");
+                        DirectoryInfo directoryInfo = new DirectoryInfo(AppSite.physicalPath);
                         FileInfo[] fileInfo = directoryInfo.GetFiles("*.dll");
 
                         foreach (FileInfo fi in fileInfo)
@@ -206,19 +206,15 @@ namespace Mvc
 
                                         MethodInfo method = baseController.GetType().GetMethod(route.ActionName);
                                         AuthorizeAttribute attribute = (AuthorizeAttribute)method.GetCustomAttribute(typeof(AuthorizeAttribute));
-                                        User user = null;
 
+                                        AuthorizationUser authorizationUser = baseController.User;
+                                        
                                         if (attribute != null)
                                         {
-                                            if (!attribute.IsAuthorized(baseController.Request))
+                                            if (!attribute.IsAuthorized(baseController.Request, authorizationUser))
                                             {
                                                 Console.WriteLine("user no authorized..");
-
-                                                /// TODO: deberia de cargar la configuracion del context
-                                                /// la configuracion del usuario que crea la app.
-                                                ConfigurationManager conf = new ConfigurationManager();
-                                                conf.Load();                               
-
+                                                
                                             }
                                             else
                                             {

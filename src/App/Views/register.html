@@ -1,8 +1,14 @@
 ﻿<!DOCTYPE html>
 <html>
+<head>
+    <title>{{tittle}}</title>
+</head>
 <body>
 
-    <form action="http://127.0.0.1:8080/App/user/RegisterUser" method="post" enctype="multipart/form-data">
+    <h3>
+        {{message}}
+    </h3>
+    <form action="RegisterUser" method="post" enctype="multipart/form-data">
         First name:<br>
         <input type="text" name="firstname">
         <br>
@@ -16,13 +22,20 @@
         <input type="text" name="username">
         <br>
         Password:<br>
-        <input type="text" name="password">
+        <input type="password" name="password">
         <br>
         Confirm Password:<br>
-        <input type="text" name="confPassword">
+        <input type="password" name="confPassword">
         <br><br>
         <input type="submit" value="Submit">
-    </form>
+        
+        <a href="Index">
+            <input type="button" value="Go to Home" />
+        </a>
 
+        <a href="Login">
+            <input type="button" value="Login" />
+        </a>
+    </form>
 </body>
 </html>

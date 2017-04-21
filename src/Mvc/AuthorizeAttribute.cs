@@ -24,12 +24,18 @@ namespace Mvc
         /// </summary>
         /// <param name="request">object: Request.</param>
         /// <returns>True: authorized, false: no authorized.</returns>
-        public bool IsAuthorized(Request request)
+        public bool IsAuthorized(Request request, AuthorizationUser authUser)
         {
-            string token = request.Headers["auth-token"];
-            string username = request.Headers["username"];
-            string secret = request.Headers["secret-key"];
-            return Session.GetUserAuthority(username, token, secret);
+            string token = request.Headers["token"];
+            AuthorizationUser generated = Session.GetUserAuthorised(token, authUser.SecretWord);
+
+            if (generated.Password.Equals(authUser.Password) && generated.Username.Equals(authUser.Username))
+            {
+                return true;
+            }
+
+            return false;
         }
+        
     }
 }

@@ -63,8 +63,10 @@ namespace Mvc
         /// <returns>MemoryStream: Stream data.</returns>
         public override object GetRespond()
         {
-            string defaultViewPath = this.PhysicalPath + "/Views/" + this.ControllerName;
-            string customViewPath = this.PhysicalPath + "/Views/" + this.CustomView;
+
+            string newpath = PhysicalPath.Replace("/bin/Debug", "");
+            string defaultViewPath = newpath + "/Views/" + this.ControllerName;
+            string customViewPath = newpath + "/Views/" + this.CustomView;
             byte[] dataDynamicView = null;
 
             customViewPath += ".html";
