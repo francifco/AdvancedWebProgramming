@@ -218,16 +218,31 @@ namespace App
         [HttpGet]
         public ActionResult GetURL()
         {
-           
+            Model.Entities.Url url = new Model.Entities.Url();
+            url.LargeUrl = Request.Params["url"];
+            object respond;
+          
+            if (string.IsNullOrEmpty(url.LargeUrl))
+            {
+                respond = new
+                {
+                    tittle = "Pick Url",
+                    option = "Login",
+                    errorMessage = "Incorrect URL.",
+                    message = "Welcome to Pick Url."
+                };
+
+                return View("401", respond, "index");
+            }
+            
+
             string shortUrl = Path.GetRandomFileName();
             shortUrl = shortUrl.Replace(".", "");
             shortUrl = Request.QueryParams["Host"] + "/app/url/click/" + shortUrl;
 
             Model.Repository.UrlRepository urlRepo = new Model.Repository.UrlRepository();
-
-            Model.Entities.Url url = new Model.Entities.Url();
-
-            url.LargeUrl = Request.Params["url"];
+            
+            
             url.ShortenedURL = shortUrl;
 
             url.userId = Request.Params["idUser"];
@@ -237,7 +252,7 @@ namespace App
 
             urlRepo.AddUrl(url);
 
-            object respond = new
+            respond = new
             {
                 tittle = "Pick Url",
                 url = shortUrl,
