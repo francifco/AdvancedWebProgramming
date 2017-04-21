@@ -34,6 +34,10 @@ namespace Mvc
         /// </summary>
         public NameValueCollection Params;
 
+
+        public NameValueCollection QueryParams;
+
+
         /// <summary>
         /// This Field is the representative of files of the requests.
         /// </summary>
@@ -48,9 +52,9 @@ namespace Mvc
         /// <param name="param">Parameters of request.</param>
         /// <param name="files">files of requests.</param>
 
-        public Request(string urlPath,string httpMethod, NameValueCollection headers, NameValueCollection param, Dictionary<string, HttpFile> files)
+        public Request(string urlPath,string httpMethod, NameValueCollection headers, NameValueCollection param, NameValueCollection queryparams, Dictionary<string, HttpFile> files)
         {
-
+            this.QueryParams = queryparams;
             this.UrlPath = urlPath;
             this.Files = files;
             this.Headers = headers;

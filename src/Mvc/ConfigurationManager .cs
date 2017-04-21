@@ -45,7 +45,8 @@ namespace Mvc
         /// </summary>
         public void Load()
         {
-            string filePath = @"../../../PHttp/config.json";
+            ///TODO:
+            string filePath = @"/home/francisco/AdvancedWebProgramming/src/PHttp/config.json";
 
             if (File.Exists(filePath))
             {

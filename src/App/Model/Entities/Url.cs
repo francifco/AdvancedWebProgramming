@@ -11,12 +11,12 @@ namespace App.Model.Entities
     /// </summary>
     public class Url
     {
-        int id;
-        string shortenedURL;
-        string url;
-        string userId;
-        int clicks;
-        DateTime lastClick;
-        DateTime created;
+        public int id;
+        public string ShortenedURL;
+        public string LargeUrl;
+        public string userId;
+        public int clicks;
+        public string lastClick;
+        public string created;
     }
 }
