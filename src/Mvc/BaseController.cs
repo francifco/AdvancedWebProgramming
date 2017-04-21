@@ -40,7 +40,7 @@ namespace Mvc
         /// This property is for the handling of the authentication 
         /// with the server.
         /// </summary>
-        public User User { get; set; }
+        public AuthorizationUser User { get; set; }
 
         /// <summary>
         /// Default constructor.

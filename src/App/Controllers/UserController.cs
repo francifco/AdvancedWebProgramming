@@ -13,6 +13,17 @@ namespace App
     /// </summary>
     public class UserController : BaseController
     {
+        /// <summary>
+        /// For authorize user.
+        /// </summary>
+        AuthorizationUser authorizationUser;
+
+
+        ///TODO: hacer que esta palabra se guarde en el archivo de configuracion del site.
+        /// <summary>
+        /// Secret word.
+        /// </summary>
+        string secretWord = "secretFco";
 
         /// <summary>
         /// Action of Register an user.
@@ -39,7 +50,7 @@ namespace App
             }
 
 
-            Model.user user = new Model.user();
+            Model.Entities.User user = new Model.Entities.User();
             Model.Repository.UserRepository userRepository = new Model.Repository.UserRepository();
 
             user.firstName = (string)Request.Params["firstName"];
@@ -51,7 +62,7 @@ namespace App
 
             if (userRepository.HasUser(user.username))
             {
-                respond = new { error = "400", message = "This user already exists." };
+                respond = new { error = "400", message = "This username already exists." };
                 return new JsonResult("400", respond);
             }
 
@@ -68,43 +79,97 @@ namespace App
 
         }
 
+        /// <summary>
+        /// This action show the register view.
+        /// </summary>
+        /// <returns>Object: View.</returns>
+        [HttpGet]
+        public ActionResult Register()
+        {
+            object Object = new { tittle = "Register MvcUser", message = "Welcome to Pick Url." };
+
+            return View("200", Object, "register");
+        }
+
+
+        /// <summary>
+        /// This action show the index view.
+        /// </summary>
+        /// <returns>Object: View.</returns>
+        [HttpGet]
+        public ActionResult Index()
+        {
+            object Object = new { option = "Login", tittle = "Pick Url", message = "Welcome to Pick Url." };
+
+            return View("200", Object, "index");
+        }
+
+        /// <summary>
+        /// This action show the login view.
+        /// </summary>
+        /// <returns>Object: View.</returns>
+        [HttpGet]
+        public ActionResult Login()
+        {
+            object Object = new { option = "Login", tittle = "Login user", message = "Login user" };
+
+            return View("200", Object, "login");
+        }
 
         /// <summary>
         /// This action logIn an user.
         /// </summary>
         /// <returns>Object: respond.</returns>
         [HttpPost]
-        public ActionResult LogIn()
+        public ActionResult LogInUser()
         {
-
             object respond;
+            string pass = (string)Request.Params["password"];
+            string username = (string)Request.Params["username"];
 
-            if (Request.Params.Count < 2)
+            if (string.IsNullOrEmpty(pass) || string.IsNullOrEmpty(username))
             {
-                respond = new { error = "400", message = "Please complete all fields." };
-                return new JsonResult("400", respond);
+
+                respond = new
+                {
+                    tittle = "Login user",
+                    message = "Login user",
+                    option = "Login",
+                    errorMessage = "Please complete all fields."
+                };
+
+                return View("401", respond, "login");
             }
 
             Model.Repository.UserRepository userRepository = new Model.Repository.UserRepository();
+            Model.Entities.User user = userRepository.Login(username, pass);
 
-            Model.user user = userRepository.Login((string)Request.Params["username"],
-                (string)Request.Params["password"]);
-
-            if (user != null)
+            if (!string.IsNullOrEmpty(user.username))
             {
-                string secretWord = "secretFco";
+                
                 string tokenGenerated = Session.GenerateToken(user.username, user.password, secretWord);
+                authorizationUser = new AuthorizationUser(user.username, user.password, secretWord);
 
-                string strRespond = @"{ ""auth-token"":" + tokenGenerated + ","
-                   + "username" + ":" + user.username + ", "
-                   + "secret-key" + ":" + secretWord + "}";
+                respond = new {
+                    tittle = "Pick Url",
+                    token = tokenGenerated,
+                    option = "Sign Out",
+                    message = "Welcome to Pick Url.",
+                    userLogged = user.firstName
+                };
 
-                return new JsonResult("200", strRespond);
+                return View("200", respond, "index");
+                
             }
             else
             {
-                respond = new { error = "401", message = "Passwod or Username incorrect." };
-                return new JsonResult("401", respond);
+                respond = new {
+                    tittle = "Login user",
+                    message = "Login user",
+                    option = "Login",
+                    errorMessage = "Passwod or Username incorrect." };
+
+                return View("401", respond, "login");
             }
         }
 

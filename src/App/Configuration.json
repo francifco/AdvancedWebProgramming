@@ -1,7 +1,7 @@
 ﻿{
   "name": "App1 Web Site",
-  "physicalPath": "../../../App1",
-  "virtualPath": "App",
+  "physicalPath": "../../../App",
+  "virtualPath": "App", 
   "directoryBrowsing": true,
   "defaultDocument": {
     "index": "../../../App/Views/RegisterUser.html",

@@ -34,7 +34,7 @@ namespace Franci_Framework
             /// Load all active apps from configuration loaded.
             foreach (Site site in configurationManager.sites)
             {
-                AsyncAllApps = startup.LoadApps(site.physicalPath + "/bin/Debug");
+                AsyncAllApps = startup.LoadApps(site.physicalPath);
 
                 foreach (IPHttpApplication app in AsyncAllApps.Result)
                 {
@@ -68,8 +68,8 @@ namespace Franci_Framework
                 server.Start();
 
                 //Information about the start of the server in the console. 
-                Process.Start(String.Format("http://{0}/", server.EndPoint));
-                Console.WriteLine("Running on: {0}", server.EndPoint);
+                //Process.Start(String.Format("http://{0}/", server.EndPoint));
+                //Console.WriteLine("Running on: {0}", server.EndPoint);
                 Console.WriteLine("\nPress any key to continue...");
                 Console.ReadKey();
 

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{tittle}}</title>
+
+    <script>
+
+
+
+        function DrawCaptcha() {
+            var a = Math.ceil(Math.random() * 10) + '';
+            var b = Math.ceil(Math.random() * 10) + '';
+            var c = Math.ceil(Math.random() * 10) + '';
+            var d = Math.ceil(Math.random() * 10) + '';
+            var e = Math.ceil(Math.random() * 10) + '';
+            var f = Math.ceil(Math.random() * 10) + '';
+            var g = Math.ceil(Math.random() * 10) + '';
+            var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' ' + f + ' ' + g;
+            document.getElementById("txtCaptcha").value = code
+
+
+
+            // Validate the Entered input aganist the generated security code function
+            function ValidCaptcha() {
+                var str1 = removeSpaces(document.getElementById('txtCaptcha').value);
+                var str2 = removeSpaces(document.getElementById('txtInput').value);
+                if (str1 == str2) return true;
+                return false;
+
+            }
+
+            // Remove the spaces from the entered and generated code
+            function removeSpaces(string) {
+                return string.split(' ').join('');
+            }
+        }
+
+    </script>
+</head>
+<body>
+
+    <h1>
+        <label> {{message}}</label>
+    </h1>
+
+    <form action="generateUrl" method="post" enctype="multipart/form-data">
+        Enter URL:
+        <input type="text" name="url">
+        <br><br>
+        <input type="submit" value="Generate URL">
+        <br><br>
+    </form>
+
+    <a href="login">
+        <input type="button" value="{{option}}" />
+    </a>
+
+
+    <a href="register">
+        <input type="button" value="Register" />
+    </a>
+
+
+    <div class="entry">
+        {{#if userLogged}}
+        <h3>Please generate url: {{userLogged}}</h3>
+        {{else}}
+        <div>
+            <script>DrawCaptcha();</script>
+        </div>
+        {{/if}}
+    </div>
+
+    <div id="token" style="display: none;">{{token}}</div>
+
+
+    <script>
+
+        var token = document.getElementById('token').innerHTML;
+        document.cookie = "token = " + token + "";
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++)
+            {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        var value = readCookie('token');
+        console.log("token:" + value);
+
+    </script>
+
+</body>
+</html>

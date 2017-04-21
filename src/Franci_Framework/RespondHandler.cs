@@ -74,15 +74,6 @@ namespace Franci_Framework
             // show state in the console.
             Console.WriteLine("Client: {0} makes request => {1}", SiteName, requestEvent.Request.Path);
             
-            if (requestEvent.Request.Path.Equals("/"))
-            {
-                requestEvent.Response.ContentType = MimeTypeMap
-                    .GetMimeType(Path.GetExtension(configurationManager.defaultDocument["index"]));
-                requestEvent.Response.Status = "200";
-                data = File.ReadAllBytes(configurationManager.defaultDocument["index"]);
-            }
-            else
-            {
                 // Do it if the site not exist.
                 if (!Exist(SiteName))
                 {
@@ -108,12 +99,13 @@ namespace Franci_Framework
                         }
                         else
                         {
+                            
                             requestEvent.Response.ContentType = MimeTypeMap.GetMimeType(Path.GetExtension(site.defaultDocument["index"]));
                             requestEvent.Response.Status = "200";
                             data = File.ReadAllBytes(site.defaultDocument["index"]);
                         } 
                     }
-                    else // TODO: verificar esta parte.
+                    else 
                     {
                         ActionRequest.Add("URLPath", requestEvent.Request.Path.Replace("/" + SiteName, "").ToLower());
                         ActionRequest.Add("HttpMethod", requestEvent.Request.HttpMethod);
@@ -159,7 +151,7 @@ namespace Franci_Framework
                     
                     /// TODO:hacer que se actualize site en el js despues que el user cree algun view. 
                 }
-            }
+            
 
             stream = new MemoryStream(data);
             return new HttpOutputStream(stream);

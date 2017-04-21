@@ -9,8 +9,11 @@ namespace Mvc
     /// <summary>
     /// This class is a representative class of a user in the application.
     /// </summary>
-    public class User
+    public class AuthorizationUser
     {
+
+       
+
         /// <summary>
         /// This property represents the user name of user.
         /// </summary>
@@ -30,6 +33,19 @@ namespace Mvc
         /// This Field represent the lifetime of the session with the token.
         /// </summary>
         public double ExpirationTime;
+
+        /// <summary>
+        /// Constructor with parameters.
+        /// </summary>
+        /// <param name="username">string: username</param>
+        /// <param name="username">string: password </param>
+        /// <param name="secretWord">string: secretWord</param>
+        public AuthorizationUser(string username, string password, string secretWord)
+        {
+            this.Username = username;
+            this.Password = password;
+            this.SecretWord = secretWord;
+        }
 
     }
 }

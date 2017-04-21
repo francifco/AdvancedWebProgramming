@@ -1,5 +1,5 @@
 {
-    "port": 8080,
+    "port": 8082,
     "errorPages": {
         "401": "../../../PHttp/Resources/ErrorPages/401.html",
         "403": "../../../PHttp/Resources/ErrorPages/403.html",
@@ -9,7 +9,7 @@
         "412": "../../../PHttp/Resources/ErrorPages/412.html",
         "500": "../../../PHttp/Resources/ErrorPages/500.html",
         "501": "../../../PHttp/Resources/ErrorPages/501.html",
-        "502": "../../../PHttp/Resources/ErrorPages/502.html"
+      "502": "../../../PHttp/Resources/ErrorPages/502.html"
     },
     "defaultDocument": {
         "index": "../../../PHttp/Resources/DefaultDocuments/Pages/index.html"
@@ -17,7 +17,7 @@
     "sites": [
     {
       "name": "App1 Web Site",
-      "physicalPath": "../../../App",
+      "physicalPath": "../../../App/bin/Debug",
       "virtualPath": "App",
       "directoryBrowsing": true,
       "defaultDocument": {

@@ -47,8 +47,10 @@ namespace Mvc
         /// <param name="headers">Header of request.</param>
         /// <param name="param">Parameters of request.</param>
         /// <param name="files">files of requests.</param>
+
         public Request(string urlPath,string httpMethod, NameValueCollection headers, NameValueCollection param, Dictionary<string, HttpFile> files)
         {
+
             this.UrlPath = urlPath;
             this.Files = files;
             this.Headers = headers;
