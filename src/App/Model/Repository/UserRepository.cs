@@ -61,7 +61,7 @@ namespace App.Model.Repository
                 }
             }
 
-            if (user != null)
+            if (user.id != 0)
             {
                 return true;
             }
