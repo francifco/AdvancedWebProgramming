@@ -38,8 +38,15 @@ namespace App
 
             if (Request.Params.Count < 6)
             {
-                respond = new { error = "400", message = "Please complete all fields." };
-                return new JsonResult("400", respond);
+
+                respond = new
+                {
+                    tittle = "Pick Url",
+                    message = "Welcome to Pick Url",
+                    errorMessage = "Please complete all fields."
+                };
+
+                return View("401", respond, "register");
             }
 
             string password = (string)Request.Params["password"];
@@ -47,8 +54,15 @@ namespace App
 
             if (!password.Equals(confirpassword))
             {
-                respond = new { error = "400", message = "Password and confirm password must be the same." };
-                return new JsonResult("400", respond);
+                
+                respond = new
+                {
+                    tittle = "Pick Url",
+                    message = "Welcome to Pick Url",
+                    errorMessage = "Password and confirm password must be the same.."
+                };
+
+                return View("401", respond, "register");
             }
 
 
@@ -64,13 +78,28 @@ namespace App
 
             if (userRepository.HasUser(user.username))
             {
-                respond = new { error = "400", message = "This username already exists." };
-                return new JsonResult("400", respond);
+                
+                respond = new
+                {
+                    tittle = "Pick Url",
+                    message = "Welcome to Pick Url",
+                    errorMessage = "This username already exists.."
+                };
+
+                return View("400", respond, "register");
             }
 
             userRepository.AddUser(user);
 
-            return null;
+            respond = new
+            {
+                tittle = "Pick Url",
+                option = "Sign Out",
+                message = "Welcome to Pick Url.",
+                userLogged = user.firstName
+            };
+
+            return View("200", respond, "index");
         }
 
         /// <summary>
@@ -80,7 +109,7 @@ namespace App
         [HttpGet]
         public ActionResult Register()
         {
-            object Object = new { tittle = "Register MvcUser", message = "Welcome to Pick Url." };
+            object Object = new { tittle = "Pick Url", message = "Welcome to Pick Url." };
 
             return View("200", Object, "register");
         }
@@ -262,20 +291,9 @@ namespace App
             {
                 agent = "Internet Explorer";
             }
-
-           
+ 
 
         }
-
-
-        [HttpGet]
-        public ActionResult GeteAllURL()
-        {
-            int userId;
-
-            return null;
-        }
-
 
 
 

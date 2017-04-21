@@ -92,7 +92,7 @@ namespace PHttp
 
         public HttpServer(int port)
         {
-            EndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+            EndPoint = new IPEndPoint(IPAddress.Parse("0.0.0.0"), port);
 
             ReadBufferSize = 4096;
             WriteBufferSize = 4096;

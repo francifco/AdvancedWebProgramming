@@ -12,8 +12,7 @@ namespace App.Model.Repository
     /// </summary>
     public class UrlRepository
     {
-        
-        /// TODO:
+
         string connStr = @"Server=localhost;Database=pickurl;User Id=root;Password=secret;";
 
         /// <summary>
